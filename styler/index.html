@@ -4,61 +4,9 @@
   <meta charset="UTF-8">
   <title>Suckerpunch Styler</title>
 
-  <style>
-    body {
-        padding:40px;
-    }
-
-    #overlay {
-        display: none;
-        background: #000;
-        position: fixed;
-        z-index: 100;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
-    }
-
-    p {
-        margin-bottom:20px;
-    }
-
-    .active {
-        position: relative !important;
-        z-index: 101 !important;
-        background: #fff;
-        box-shadow: 0px 0px 50px #111;
-    }
-  </style>
-
+  <link rel="stylesheet" href="styler.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <script>
-  $(document).ready( function () {
-    $('*').on("click", function( e ) {    
-      e.stopPropagation();
-      
-      var _this   = $(this);
-      var overlay = $('#overlay');
-      
-      if ( !_this.hasClass('active') ) {
-        if ( _this.is(':not(#overlay)') ) {
-          _this.addClass('active');
-        }
-
-        overlay.fadeTo(200, 0.7);
-      }
-
-      if ( _this.hasClass('active') ) {
-        overlay.on("click", function() {
-          overlay.fadeOut(200, function() {
-            _this.removeClass('active');
-          });
-        });
-      }
-    });
-  });
-  </script>
+  <script src="styler.js"></script>
 </head>
 <body>
 
