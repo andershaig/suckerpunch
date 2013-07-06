@@ -18,12 +18,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
   <script src="raphael-min.js"></script>
   <script>
-    (function() {
+    (function ($, Replayer, undefined) {
         // Creates a new canvas element and appends it as a child
         // to the parent element, and returns the reference to
         // the newly created canvas element
 
-        function createCanvas(parent, width, height) {
+        Replayer.createCanvas = function (parent, width, height) {
             var canvas = {};
             canvas.node = document.createElement('canvas');
             canvas.context = canvas.node.getContext('2d');
@@ -33,7 +33,7 @@
             return canvas;
         }
         
-        function drawLines(ctx, pdata) {
+        Replayer.drawLines = function (ctx, pdata) {
             ctx.beginPath();
             ctx.strokeStyle = "rgb(180,800,95)";
             
@@ -57,8 +57,8 @@
             ctx.closePath();
         }
 
-        function init(container, width, height, fillColor) {
-            var canvas = createCanvas(container, width, height);
+        Replayer.init = function (container, width, height, fillColor) {
+            var canvas = Replayer.createCanvas(container, width, height);
             var ctx = canvas.context;
             
             // custom fillCircle method
@@ -87,7 +87,7 @@
                 {x: 102,y: 433,t: 1371961141727}
             ];
       
-        drawLines(ctx, pdata);
+        Replayer.drawLines(ctx, pdata);
         
         ctx.stroke();
             
@@ -108,9 +108,9 @@
         var container = document.getElementById('canvas');
         var width = window.innerWidth;
         var height = window.innerHeight;
-        init(container, width, height, 'transparent');
+        Replayer.init(container, width, height, 'transparent');
 
-    })();
+    }(jQuery, window.Replayer = window.Replayer || {}));
   </script>
 </head>
 <body>
