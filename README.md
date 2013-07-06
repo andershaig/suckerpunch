@@ -1,5 +1,4 @@
-## Suckerpunch
-"You won't see it coming!"
+# Suckerpunch ~ You won't see it coming!
 
 ---------------------------------------
 
