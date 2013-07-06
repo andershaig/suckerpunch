@@ -6,10 +6,10 @@
  * This version uses google's jsapi library for location services.
  * For details, see: https://github.com/codejoust/session.js
  */
-(function(win, doc, nav){
+var session_fetch = (function(win, doc, nav){
+  'use strict';
   // Changing the API Version invalidates olde cookies with previous api version tags.
   var API_VERSION = 0.4;
-  
   // Settings: defaults
   var options = {
     // Use the HTML5 Geolocation API
@@ -32,20 +32,21 @@
     // Session cookie name (set blank to disable cookie)
     session_cookie: "first_session"
   };
-  
+
   // Session object
   var SessionRunner = function(){
+    win.session = win.session || {};
     // Helper for querying.
     // Usage: session.current_session.referrer_info.hostname.contains(['github.com','news.ycombinator.com'])
-    String.prototype.contains = function(other_str){
+    win.session.contains = function(other_str){
       if (typeof(other_str) === 'string'){
         return (this.indexOf(other_str) !== -1); }
       for (var i = 0; i < other_str.length; i++){
         if (this.indexOf(other_str[i]) !== -1){ return true; } }
-      return false; }
+      return false; };
     // Merge options
     if (win.session && win.session.options) {
-      for (option in win.session.options){
+      for (var option in win.session.options){
         options[option] = win.session.options[option]; }
     }
     // Modules to run
@@ -77,7 +78,8 @@
     }
     // Set up checking, if all modules are ready
     var asynchs = 0, module, result,
-    check_asynch = function(){
+    check_asynch = function(deinc){
+      if (deinc){ asynchs--; }
       if (asynchs === 0){
         // Run start calback
         if (start){ start(win.session); }
@@ -91,21 +93,20 @@
         try {
           module(function(data){
             win.session[name] = data;
-            asynchs--;
-            check_asynch();
+            check_asynch(true);
           });
           asynchs++;
         } catch(err){
           if (win.console && typeof(console.log) === "function"){
-            console.log(err); }
+            console.log(err); check_asynch(true); }
         }
       } else {
         win.session[name] = module;
       } }
     check_asynch();
   };
-  
-  
+
+
   // Browser (and OS) detection
   var browser = {
     detect: function(){
@@ -155,12 +156,12 @@
         { string: nav.platform, subString: "Win", identity: "Windows" },
         { string: nav.platform, subString: "Mac", identity: "Mac" },
         { string: nav.userAgent, subString: "iPhone", identity: "iPhone/iPod" },
-        { string: nav.userAgent, subString: "iPad", identitiy: "iPad" },
-        { string: nav.platform, subString: "Linux", identity: "Linux" },
-        { string: nav.userAgent, subString: "Android", identity: "Android" }
+        { string: nav.userAgent, subString: "iPad", identity: "iPad" },
+        { string: nav.userAgent, subString: "Android", identity: "Android" },
+        { string: nav.platform, subString: "Linux", identity: "Linux" }
       ]}
   };
-  
+
   var modules = {
     browser: function(){
       return browser.detect();
@@ -174,12 +175,12 @@
       // Gives a browser estimation, not guaranteed to be correct.
     },
     locale: function() {
-      var lang = (
+      var lang = ((
         nav.language        ||
         nav.browserLanguage ||
         nav.systemLanguage  ||
         nav.userLanguage
-      ).split("-");
+      ) || '').split("-");
       if (lang.length == 2){
         return { country: lang[1].toLowerCase(), lang: lang[0].toLowerCase() };
       } else if (lang) {
@@ -189,19 +190,17 @@
     device: function() {
       var device = {
         screen: {
-          width: screen.width,
-          height: screen.height
+          width:  win.screen.width,
+          height: win.screen.height
         }
       };
-      var html = doc.documentElement,
-          body = doc.getElementsByTagName("body")[0];
       device.viewport = {
         width: win.innerWidth || doc.documentElement.clientWidth || doc.body.clientWidth,
         height: win.innerHeight || doc.documentElement.clientHeight || doc.body.clientHeight 
       };
       device.is_tablet = !!nav.userAgent.match(/(iPad|SCH-I800|xoom|kindle)/i);
-      device.is_phone = !device.isTablet && !!nav.userAgent.match(/(iPhone|iPod|blackberry|android 0.5|htc|lg|midp|mmp|mobile|nokia|opera mini|palm|pocket|psp|sgh|smartphone|symbian|treo mini|Playstation Portable|SonyEricsson|Samsung|MobileExplorer|PalmSource|Benq|Windows Phone|Windows Mobile|IEMobile|Windows CE|Nintendo Wii)/i);
-      device.is_mobile = (device.is_tablet || device.is_phone);
+      device.is_phone = !device.is_tablet && !!nav.userAgent.match(/(iPhone|iPod|blackberry|android 0.5|htc|lg|midp|mmp|mobile|nokia|opera mini|palm|pocket|psp|sgh|smartphone|symbian|treo mini|Playstation Portable|SonyEricsson|Samsung|MobileExplorer|PalmSource|Benq|Windows Phone|Windows Mobile|IEMobile|Windows CE|Nintendo Wii)/i);
+      device.is_mobile = device.is_tablet || device.is_phone;
       return device;
     },
     plugins: function(){
@@ -215,13 +214,13 @@
             } }
           return false;
         } return false;
-      }
+      };
       return {
         flash:       check_plugin("flash"),
         silverlight: check_plugin("silverlight"),
         java:        check_plugin("java"),
         quicktime:   check_plugin("quicktime")
-      }; 
+      };
     },
     session: function (cookie, expires){
       var session = util.get_obj(cookie);
@@ -260,11 +259,13 @@
               session.search.query  = terms; session.search.terms  = terms.split(" ");
               break;
             }
-          } 
+          }
         }
       } else {
+        session.prev_visit = session.last_visit;
         session.last_visit = new Date().getTime();
         session.visits++;
+        session.time_since_last_visit = session.last_visit - session.prev_visit;
       }
       util.set_cookie(cookie, util.package_obj(session), expires);
       return session;
@@ -298,16 +299,16 @@
                 options.location_cookie,
                 util.package_obj(win.google.loader.ClientLocation),
                 options.location_cookie_timeout * 60 * 60 * 1000);
-            }}
+            }};
           util.embed_script("https://www.google.com/jsapi?callback=gloader_ready");
         } else {
           callback(location);
-        }}
+        }};
     },
     ipinfodb_location: function(api_key){
       return function (callback){
         var location_cookie = util.get_obj(options.location_cookie);
-        if (location_cookie && location_cookie.source === 'ipinfodb'){ callback(location_cookie); }
+        if (!location_cookie && location_cookie.source === 'ipinfodb'){ 
         win.ipinfocb = function(data){
           if (data.statusCode === "OK"){
             data.source = "ipinfodb";
@@ -319,16 +320,17 @@
           } else {
             if (options.gapi_location){ return modules.gapi_location()(callback); }
             else { callback({error: true, source: "ipinfodb", message: data.statusMessage}); }
-          }}
+          }};
         util.embed_script("http://api.ipinfodb.com/v3/ip-city/?key=" + api_key + "&format=json&callback=ipinfocb");
+        } else { callback(location_cookie); }
       }}
   };
-  
+
   // Utilities
   var util = {
     parse_url: function(url_str){
       var a = doc.createElement("a"), query = {};
-      a.href = url_str; query_str = a.search.substr(1);
+      a.href = url_str; var query_str = a.search.substr(1);
       // Disassemble query string
       if (query_str != ''){
         var pairs = query_str.split("&"), i = 0,
@@ -348,21 +350,21 @@
         query:    query }
     },
     set_cookie: function(cname, value, expires, options){ // from jquery.cookie.js
-      if (!doc.cookie || !cname || !value){ return null; }
-      if (!options){ var options = {}; }
+      if (!cname){ return null; }
+      if (!options){ options = {}; }
       if (value === null || value === undefined){ expires = -1; }
       if (expires){ options.expires = (new Date().getTime()) + expires; }
-      return (document.cookie = [
+      return (doc.cookie = [
           encodeURIComponent(cname), '=',
           encodeURIComponent(String(value)),
           options.expires ? '; expires=' + new Date(options.expires).toUTCString() : '', // use expires attribute, max-age is not supported by IE
-          options.path ? '; path=' + options.path : '',
+          '; path=' + (options.path ? options.path : '/'),
           options.domain ? '; domain=' + options.domain : '',
           (win.location && win.location.protocol === 'https:') ? '; secure' : ''
       ].join(''));
     },
     get_cookie: function(cookie_name, result){ // from jquery.cookie.js
-      return (result = new RegExp('(?:^|; )' + encodeURIComponent(cookie_name) + '=([^;]*)').exec(document.cookie)) ? decodeURIComponent(result[1]) : null;
+      return (result = new RegExp('(?:^|; )' + encodeURIComponent(cookie_name) + '=([^;]*)').exec(doc.cookie)) ? decodeURIComponent(result[1]) : null;
     },
     embed_script: function(url){
       var element  = doc.createElement("script");
@@ -371,19 +373,22 @@
       doc.getElementsByTagName("body")[0].appendChild(element);
     },
     package_obj: function (obj){
-      obj.version = API_VERSION;
-      var ret = JSON.stringify(obj);
-      delete obj.version; return ret;
+      if(obj) {
+        obj.version = API_VERSION;
+        var ret = JSON.stringify(obj);
+        delete obj.version;
+        return ret;
+      }
     },
     get_obj: function(cookie_name){
       var obj;
-      try { obj = JSON.parse(util.get_cookie(cookie_name)); } catch(e){};
+      try { obj = JSON.parse(util.get_cookie(cookie_name)); } catch(e){}
       if (obj && obj.version == API_VERSION){
         delete obj.version; return obj;
       }
     }
   };
-  
+
   // JSON
   var JSON = {
     parse: (win.JSON && win.JSON.parse) || function(data){
@@ -411,4 +416,10 @@
   // Initialize SessionRunner
   SessionRunner();
 
-})(window, document, navigator);
+});
+// Switch for testing purposes.
+if (typeof(window.exports) === 'undefined'){
+  session_fetch(window, document, navigator);
+} else {
+  window.exports.session = session_fetch;
+}

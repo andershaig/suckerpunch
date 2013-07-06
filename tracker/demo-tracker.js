@@ -16,32 +16,26 @@
 
   // Finalize
   md.fin = function () {
-      var output = '<div><h3>Test Data</h3></div>';
-      output += '<div><b>Start</b> ' + md.sT + '</div>';
-      output += '<div><b>Stop</b> ' + md.eT + '</div>';
-      output += '<div><b>Duration</b> ' + (md.eT - md.sT) + '</div>';
-      
-      if (md.count == 0) {
-          output += '<div><b>Event Count</b> ' + md.events.length + '</div>';
-      } else {
-          output += '<div><b>Event Count</b> ' + md.count + '</div>';
-      }
-      
-      if (md.events.length) {
-          output += '<div><b>Event Data</b></div>';
-          
-          $.each(md.events, function (i, v) {
-              output += '<div><span>{x: ' + v.x + ',</span><span>y: ' + v.y + ',</span><span>t: ' + v.t + '}</span></div>';
-          });
-      }
-      
-      $('#res').html(output).show();
-  }
-
-  // Track environment dat
-  md.tE = function () {
-    md.env.width  = window.innerWidth;
-    md.env.height = window.innerHeight;
+    var output = '<div><h3>Test Data</h3></div>';
+    output += '<div><b>Start</b> ' + md.sT + '</div>';
+    output += '<div><b>Stop</b> ' + md.eT + '</div>';
+    output += '<div><b>Duration</b> ' + (md.eT - md.sT) + '</div>';
+    
+    if (md.count == 0) {
+        output += '<div><b>Event Count</b> ' + md.events.length + '</div>';
+    } else {
+        output += '<div><b>Event Count</b> ' + md.count + '</div>';
+    }
+    
+    if (md.events.length) {
+        output += '<div><b>Event Data</b></div>';
+        
+        $.each(md.events, function (i, v) {
+            output += '<div><span>{x: ' + v.x + ',</span><span>y: ' + v.y + ',</span><span>t: ' + v.t + '}</span></div>';
+        });
+    }
+    
+    $('#res').html(output).show();
   }
 
   // Track Count
@@ -73,7 +67,17 @@
         md.fin();
       }
     });
-
-    md.tE();
   });
 }(jQuery, window.md = window.md || {}));
+
+// Track Environment Data
+window.session = {
+  options: {
+    gapi_location: false
+  },
+  start: function (session) {
+    md.env.browser = window.session.browser;
+    md.env.plugins = window.session.plugins;
+    md.env.device  = window.session.device;
+  }
+}
