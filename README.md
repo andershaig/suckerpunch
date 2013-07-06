@@ -1,9 +1,9 @@
-##Suckerpunch##
-"You won't see it coming!"
+### Suckerpunch
+##### "You won't see it coming!"
 
-===========
+---------------------------------------
 
-### Replayer
+#### Replayer
 
 **Summary:** The Replayer is a tool for visualizing recorded data tracked using the Tracker. It will be able to show you the data in several formats:
 - **Static:** graph all of the tracked lines and points at once
@@ -17,9 +17,9 @@
 - Create the dynamic replayer in real-time
 - Create slow motion versions for the dynamic replayer
 
-===========
+---------------------------------------
 
-### Styler
+#### Styler
 
 **Summary:** The Styler is a tool to make styling HTML with CSS easy enough that someone with little to no technical knowledge can use it. It's geared to making web design easy enough that you don't even need to know what CSS is to accomplish your design goals.
 
@@ -27,9 +27,9 @@
 - Refine basic demo to give a walkthrough of what the tool could be.
 - Everything else, including making the TODO list
 
-===========
+---------------------------------------
 
-### Tracker
+#### Tracker
 
 **Summary:** The Tracker is a test environment for usability studies related to the Suckerpunch project. It collects info on users (both basic environment and mouse tracking). It's similar in methods to the actual data collection that would be used in a production application that utilizes the Suckerpunch concept but without as much care to performance / timing.
 
