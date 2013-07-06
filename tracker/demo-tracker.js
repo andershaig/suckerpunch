@@ -11,6 +11,9 @@
   // End Time
   md.eT = null;
 
+  // Environment Data
+  md.env = {};
+
   // Finalize
   md.fin = function () {
       var output = '<div><h3>Test Data</h3></div>';
@@ -35,34 +38,42 @@
       $('#res').html(output).show();
   }
 
+  // Track environment dat
+  md.tE = function () {
+    md.env.width  = window.innerWidth;
+    md.env.height = window.innerHeight;
+  }
+
   // Track Count
   md.tC = function () {
-      md.count++;
+    md.count++;
   }
 
   // Track Points
   md.tP = function (e) {
-      md.events.push({
-          x: e.pageX,
-          y: e.pageY,
-          t: e.timeStamp
-      });
+    md.events.push({
+      x: e.pageX,
+      y: e.pageY,
+      t: e.timeStamp
+    });
   }
 
   $(document).ready( function () {
     $('#el').on({
-        mousedown: function (e) {
-            md.sT = e.timeStamp;
-            
-            $(this).on('mousemove', md.tP); 
-        },
-        mouseup: function(e) {
-            md.eT = e.timeStamp;
-            
-            $(this).off('mousemove').off('mousedown').off('mouseup');
-            
-            md.fin();
-        }
+      mousedown: function (e) {
+        md.sT = e.timeStamp;
+        
+        $(this).on('mousemove', md.tP); 
+      },
+      mouseup: function(e) {
+        md.eT = e.timeStamp;
+        
+        $(this).off('mousemove').off('mousedown').off('mouseup');
+        
+        md.fin();
+      }
     });
+
+    md.tE();
   });
 }(jQuery, window.md = window.md || {}));
