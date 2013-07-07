@@ -14,10 +14,14 @@
   }
   
   Replayer.drawLines = function (ctx, pdata) {
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 1;
+    ctx.shadowBlur = 1;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
     ctx.beginPath();
-    ctx.strokeStyle = "rgb(180,800,95)";
+    ctx.strokeStyle = "#FFF";
     
-    // draw the stored lines
+    // Draw lines from data
     for (var i = 0; i < pdata.length; i++) {
         ctx.moveTo(pdata[i].x, pdata[i].y);
 
@@ -37,25 +41,49 @@
     ctx.closePath();
   }
 
+  Replayer.drawPoints = function (ctx, pdata) {
+    ctx.fillCircle = function(x, y, radius) {
+      this.shadowOffsetX = 0;
+      this.shadowOffsetY = 1;
+      this.shadowBlur = 1;
+      this.shadowColor = 'rgba(0, 0, 0, 0.5)';
+      this.beginPath();
+      this.moveTo(x, y);
+      this.arc(x, y, radius, 0, Math.PI * 2, false);
+      this.fillStyle = 'transparent';
+      this.fill();
+      this.lineWidth = 5;
+      this.strokeStyle = '#FFF';
+      this.stroke();
+    };
+
+    // Draw points from data
+    for (var i = 0; i < pdata.length; i++) {
+        var point = pdata[i];
+
+        ctx.fillCircle(point.x, point.y, 5);
+    }
+  }
+
   Replayer.init = function (container, width, height, fillColor) {
     var canvas = Replayer.createCanvas(container, width, height);
     var ctx = canvas.context;
     
     // custom fillCircle method
-    ctx.fillCircle = function(x, y, radius) {
-        this.shadowOffsetX = 0;
-        this.shadowOffsetY = 1;
-        this.shadowBlur = 1;
-        this.shadowColor = 'rgba(0, 0, 0, 0.5)';
-        this.beginPath();
-        this.moveTo(x, y);
-        this.arc(x, y, radius, 0, Math.PI * 2, false);
-        this.fillStyle = 'transparent';
-        this.fill();
-        this.lineWidth = 5;
-        this.strokeStyle = '#FFF';
-        this.stroke();
-    };
+    // ctx.fillCircle = function(x, y, radius) {
+    //     this.shadowOffsetX = 0;
+    //     this.shadowOffsetY = 1;
+    //     this.shadowBlur = 1;
+    //     this.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    //     this.beginPath();
+    //     this.moveTo(x, y);
+    //     this.arc(x, y, radius, 0, Math.PI * 2, false);
+    //     this.fillStyle = 'transparent';
+    //     this.fill();
+    //     this.lineWidth = 5;
+    //     this.strokeStyle = '#FFF';
+    //     this.stroke();
+    // };
     
     ctx.clearTo = function(fillColor) {
         ctx.fillStyle = fillColor;
@@ -99,17 +127,9 @@
     ];
 
     Replayer.drawLines(ctx, pdata);
+    Replayer.drawPoints(ctx, pdata);
   
     ctx.stroke();
-      
-    $.each(pdata, function (i, v) {
-        console.log('Running ' + i);
-        
-        var x = v.x;
-        var y = v.y;
-        var radius = 5;
-        ctx.fillCircle(x, y, radius);
-    });
   }
 
   $(document).ready( function () {
