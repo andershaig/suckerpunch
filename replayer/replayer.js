@@ -3,29 +3,28 @@
   // Draw lines
   Replayer.drawLines = function (paper, points) {
     // Non-animated
-    var pathString = 'M';
+    var pathSet  = paper.set();
+    var pathGlow = paper.set();
 
-    for (var i = 0; i < points.length; i++) {
-      var point = points[i];
+    for (var i = 0; i < (points.length -1); i++) {
+      var x1 = points[i].x;
+      var y1 = points[i].y;
+      var x2 = points[i+1].x;
+      var y2 = points[i+1].y;
 
-      if (i === (points.length - 1)) {
-        pathString += ' ' + point.x + ',' + point.y;
-      } else {
-        pathString += ' ' + point.x + ',' + point.y + ' L';
-      }
+      var path = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y2);
+
+      pathSet.push(path);
     }
-
-    console.log(pathString);
-
+    
     //var line = paper.path('M 1123,95 L 941,76 L 473,231 L 266,326 L 137,402 L 102,433');
-    var line = paper.path(pathString);
 
-    line.attr({
+    pathSet.attr({
       'stroke': '#FFF',
       'stroke-width': 2.5
     });
 
-    line.glow({
+    pathGlow = pathSet.glow({
       opacity: 0.25,
       offsety: 1,
       width: 1
@@ -64,7 +63,7 @@
 
   // Draw points
   Replayer.drawPoints = function (paper, points) {
-    var pointSet = paper.set();
+    var pointSet  = paper.set();
     var pointGlow = paper.set();
 
     for (var i = 0; i < points.length; i++) {
