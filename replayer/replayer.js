@@ -5,6 +5,7 @@
     // Non-animated
     var pathSet  = paper.set();
     var pathGlow = paper.set();
+    var pathText = paper.set();
 
     for (var i = 0; i < (points.length -1); i++) {
       var x1 = points[i].x;
@@ -14,9 +15,32 @@
 
       var path = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y2);
 
+      // Distances
+      // Change in X
+      var xd = Math.abs(x2 - x1);
+
+      // Change in Y
+      var yd = Math.abs(y2 - y1);
+
+      // Actual Distance (total path length)
+      var ad = path.getTotalLength().toFixed(2);
+
+      path.data({
+        'i': i,
+        'x': xd,
+        'y': yd,
+        'l': ad
+      });
+
       pathSet.push(path);
+
+      // Add the distance
+      var bbox = path.getBBox();
+      var bx = Math.floor(bbox.x + bbox.width / 2.0);
+      var by = Math.floor(bbox.y + bbox.height / 2.0);
+      paper.circle(bx, by, 3).attr('fill', 'red');
     }
-    
+
     //var line = paper.path('M 1123,95 L 941,76 L 473,231 L 266,326 L 137,402 L 102,433');
 
     pathSet.attr({
@@ -28,6 +52,13 @@
       opacity: 0.25,
       offsety: 1,
       width: 1
+    });
+
+    pathSet.click( function () {
+      console.log(this.data('i'));
+      console.log(this.data('x'));
+      console.log(this.data('y'));
+      console.log(this.data('l'));
     });
 
     // TODO - Add a label to the center of each path on hover only, this may help some: http://stackoverflow.com/questions/1691928/put-label-in-the-center-of-an-svg-path - may also need to do other math / style
