@@ -11,12 +11,14 @@
     for (var i = 0; i < (points.length -1); i++) {
       var x1 = points[i].x;
       var y1 = points[i].y;
+      var t1 = points[i].t;
       var x2 = points[i+1].x;
       var y2 = points[i+1].y;
+      var t2 = points[i+1].t;
 
       var path = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y2);
 
-      // Distances
+      // Distance
       // Change in X
       var xd = Math.abs(x2 - x1);
 
@@ -26,11 +28,19 @@
       // Actual Distance (total path length)
       var ad = path.getTotalLength().toFixed(2);
 
+      // Time
+      // Overall Start Time
+      // TODO: This isn't tracked yet
+
+      // Time Difference
+      var td = Math.abs(t2 - t1);
+
       path.data({
         'i': i,
         'x': xd,
         'y': yd,
-        'l': ad
+        'l': ad,
+        't': td
       });
 
       pathSet.push(path);
@@ -72,6 +82,7 @@
       console.log(this.data('x'));
       console.log(this.data('y'));
       console.log(this.data('l'));
+      console.log(this.data('t'));
     });
 
     pathBox.attr('fill','#000');
