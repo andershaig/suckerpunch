@@ -3,9 +3,10 @@
   // Draw lines
   Replayer.drawLines = function (paper, points) {
     // Non-animated
-    var pathSet  = paper.set();
-    var pathGlow = paper.set();
-    var pathText = paper.set();
+    var pathSet   = paper.set();
+    var pathGlow  = paper.set();
+    var pathText  = paper.set();
+    var pathBox   = paper.set();
 
     for (var i = 0; i < (points.length -1); i++) {
       var x1 = points[i].x;
@@ -34,11 +35,23 @@
 
       pathSet.push(path);
 
-      // Add the distance
-      var bbox = path.getBBox();
-      var bx = Math.floor(bbox.x + bbox.width / 2.0);
-      var by = Math.floor(bbox.y + bbox.height / 2.0);
-      paper.circle(bx, by, 3).attr('fill', 'red');
+      // Add the distance label
+      // Bounding Box for the path
+      var pbbox  = path.getBBox();
+      // Center - X Axis
+      var cx    = Math.floor(pbbox.x + pbbox.width / 2.0);
+      // Center - Y Axis
+      var cy    = Math.floor(pbbox.y + pbbox.height / 2.0);
+      var label = paper.text(cx, cy, ad);
+
+      pathText.push(label);
+
+      // Add a box for the label
+      // Bounding Box for the label
+      var lbbox = label.getBBox();
+      var labelBox = paper.rect((lbbox.x - 10), (lbbox.y - 10), (lbbox.width + 20), (lbbox.height + 20));
+
+      pathBox.push(labelBox);
     }
 
     //var line = paper.path('M 1123,95 L 941,76 L 473,231 L 266,326 L 137,402 L 102,433');
@@ -60,6 +73,10 @@
       console.log(this.data('y'));
       console.log(this.data('l'));
     });
+
+    pathBox.attr('fill','#000');
+
+    pathText.attr('fill','#FFF').toFront();
 
     // TODO - Add a label to the center of each path on hover only, this may help some: http://stackoverflow.com/questions/1691928/put-label-in-the-center-of-an-svg-path - may also need to do other math / style
     // Also: http://stackoverflow.com/questions/16287954/how-to-center-printd-raphael-text-in-a-space
