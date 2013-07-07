@@ -2,10 +2,18 @@
 
   // Draw lines
   Replayer.drawLines = function (paper, points) {
-    for (var i = 0; i < points.length; i++) {
-        var point = points[i];
+    var line = paper.path('M 1123,95 L 941,76 L 473,231 L 266,326 L 137,402 L 102,433');
 
-    }
+    line.attr({
+      'stroke': '#000',
+      'stroke-width': 3
+    });
+
+    // TEMP: Do it by hand for testing
+    // for (var i = 0; i < points.length; i++) {
+    //     var point = points[i];
+
+    // }
   }
 
   // Draw points
@@ -13,9 +21,18 @@
     for (var i = 0; i < points.length; i++) {
       var point  = points[i];
       var circle = paper.circle(point.x, point.y, 5);
-      circle.attr('fill', 'transparent');
-      circle.attr('stroke', '#FFF');
-      circle.attr('stroke-width', 5);
+
+          circle.data('i', i);
+
+          circle.attr({
+            'fill': 'transparent',
+            'stroke': '#FFF',
+            'stroke-width': 5
+          });
+
+          circle.click(function () {
+            alert(this.data('i'));
+          });
     }
   }
 
@@ -58,7 +75,7 @@
         }
     ];
 
-    //Replayer.drawLines(ctx, pdata);
+    Replayer.drawLines(paper, points);
     Replayer.drawPoints(paper, points);
   }
 
