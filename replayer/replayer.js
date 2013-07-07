@@ -55,22 +55,23 @@
 
   // Draw points
   Replayer.drawPoints = function (paper, points) {
+    var pointSet = paper.set();
+
     for (var i = 0; i < points.length; i++) {
-      var point  = points[i];
-      var circle = paper.circle(point.x, point.y, 5);
+      var point = paper.circle(points[i].x, points[i].y, 5).data({'i': i, 't': points[i].t});
 
-          circle.data('i', i);
-
-          circle.attr({
-            'fill': 'transparent',
-            'stroke': '#FFF',
-            'stroke-width': 5
-          });
-
-          circle.click(function () {
-            alert(this.data('i'));
-          });
+      pointSet.push(point);
     }
+
+    pointSet.attr({
+      'fill': 'transparent',
+      'stroke': '#FFF',
+      'stroke-width': 5
+    });
+
+    pointSet.click(function () {
+      alert(this.data('i'));
+    });
   }
 
   Replayer.init = function () {
