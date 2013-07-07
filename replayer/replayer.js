@@ -21,8 +21,14 @@
     var line = paper.path(pathString);
 
     line.attr({
-      'stroke': '#000',
-      'stroke-width': 3
+      'stroke': '#FFF',
+      'stroke-width': 2.5
+    });
+
+    line.glow({
+      opacity: 0.25,
+      offsety: 1,
+      width: 1
     });
 
     // TODO - This isn't necessary because it's not the path itself we want to animate, but the mouse cursor. For that we can use the full path and then animate an element (like a cursor) along it like this: http://jsfiddle.net/gyeSf/17/
@@ -67,6 +73,12 @@
       'fill': 'transparent',
       'stroke': '#FFF',
       'stroke-width': 5
+    });
+
+    pointSet.glow({
+      opacity: 0.35,
+      offsety: 1,
+      width: 2
     });
 
     pointSet.click(function () {
