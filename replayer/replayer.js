@@ -3,12 +3,27 @@
   // Draw lines
   Replayer.drawLines = function (paper, points) {
     // Non-animated
-    //var line = paper.path('M 1123,95 L 941,76 L 473,231 L 266,326 L 137,402 L 102,433');
+    var pathString = 'M';
 
-    // line.attr({
-    //   'stroke': '#000',
-    //   'stroke-width': 3
-    // });
+    for (var i = 0; i < points.length; i++) {
+      var point = points[i];
+
+      if (i === (points.length - 1)) {
+        pathString += ' ' + point.x + ',' + point.y;
+      } else {
+        pathString += ' ' + point.x + ',' + point.y + ' L';
+      }
+    }
+
+    console.log(pathString);
+
+    //var line = paper.path('M 1123,95 L 941,76 L 473,231 L 266,326 L 137,402 L 102,433');
+    var line = paper.path(pathString);
+
+    line.attr({
+      'stroke': '#000',
+      'stroke-width': 3
+    });
 
     // TODO - This isn't necessary because it's not the path itself we want to animate, but the mouse cursor. For that we can use the full path and then animate an element (like a cursor) along it like this: http://jsfiddle.net/gyeSf/17/
     // Animated
@@ -36,12 +51,6 @@
     //     });
     //   });
     // });
-
-    // TEMP: Do it by hand for testing
-    // for (var i = 0; i < points.length; i++) {
-    //     var point = points[i];
-
-    // }
   }
 
   // Draw points
