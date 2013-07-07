@@ -32,6 +32,7 @@
     });
 
     // TODO - Add a label to the center of each path on hover only, this may help some: http://stackoverflow.com/questions/1691928/put-label-in-the-center-of-an-svg-path - may also need to do other math / style
+    // Also: http://stackoverflow.com/questions/16287954/how-to-center-printd-raphael-text-in-a-space
 
     // TODO - This isn't necessary because it's not the path itself we want to animate, but the mouse cursor. For that we can use the full path and then animate an element (like a cursor) along it like this: http://jsfiddle.net/gyeSf/17/
     // Animated
@@ -87,9 +88,12 @@
       alert(this.data('i'));
     });
 
-    // pointSet.hover( function () {
-    //   this.attr('stroke-width', 5);
-    // });
+    // TODO - If you're coming to keep hover, do something useful with it. May have to modify glow as well
+    pointSet.hover( function () {
+      this.attr('stroke-width', 7);
+    }, function () {
+      this.attr('stroke-width', 5);
+    });
   }
 
   Replayer.init = function () {
