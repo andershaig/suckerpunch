@@ -1,33 +1,31 @@
 (function ($, Replayer, undefined) {
-  
+
+  // Draw lines
   Replayer.drawLines = function (paper, points) {
-    // Create lines
-  }
-
-  Replayer.drawPoints = function (paper, points) {
-    // Create points
-
-    // Draw points from points
     for (var i = 0; i < points.length; i++) {
         var point = points[i];
 
-        ctx.fillCircle(point.x, point.y, 5);
     }
   }
 
-  Replayer.init = function (container, width, height, fillColor) {
-    var canvas = Replayer.createCanvas(container, width, height);
-    var ctx = canvas.context;
-    
-    ctx.clearTo = function(fillColor) {
-        ctx.fillStyle = fillColor;
-        ctx.fillRect(0, 0, width, height);
-    };
-    
-    ctx.clearTo(fillColor || "transparent");
+  // Draw points
+  Replayer.drawPoints = function (paper, points) {
+    for (var i = 0; i < points.length; i++) {
+      var point  = points[i];
+      var circle = paper.circle(point.x, point.y, 5);
+      circle.attr('fill', 'transparent');
+      circle.attr('stroke', '#FFF');
+      circle.attr('stroke-width', 5);
+    }
+  }
+
+  Replayer.init = function () {
+    var width  = window.innerWidth;
+    var height = window.innerHeight;
+    var paper = Raphael(0, 0, width, height);
 
     // bind mouse events
-    var pdata = [
+    var points = [
         {
             x: 1123,
             y: 95,
@@ -61,15 +59,11 @@
     ];
 
     //Replayer.drawLines(ctx, pdata);
-    //Replayer.drawPoints(ctx, pdata);
+    Replayer.drawPoints(paper, points);
   }
 
   $(document).ready( function () {
-    var container = document.getElementById('canvas');
-    var width     = window.innerWidth;
-    var height    = window.innerHeight;
-
-    Replayer.init(container, width, height, 'transparent');
+    Replayer.init();
   });
 
 }(jQuery, window.Replayer = window.Replayer || {}));
