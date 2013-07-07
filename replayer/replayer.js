@@ -65,6 +65,7 @@
   // Draw points
   Replayer.drawPoints = function (paper, points) {
     var pointSet = paper.set();
+    var pointGlow = paper.set();
 
     for (var i = 0; i < points.length; i++) {
       var point = paper.circle(points[i].x, points[i].y, 5).data({'i': i, 't': points[i].t});
@@ -78,7 +79,7 @@
       'stroke-width': 5
     });
 
-    pointSet.glow({
+    pointGlow = pointSet.glow({
       opacity: 0.35,
       offsety: 1,
       width: 2
@@ -90,9 +91,17 @@
 
     // TODO - If you're coming to keep hover, do something useful with it. May have to modify glow as well
     pointSet.hover( function () {
-      this.attr('stroke-width', 7);
+      this.attr('stroke-width', 6);
+
+      this.g = this.glow({
+        opacity: 0.35,
+        offsety: 1,
+        width: 8
+      });
     }, function () {
       this.attr('stroke-width', 5);
+
+      this.g.remove();
     });
   }
 
