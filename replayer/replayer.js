@@ -5,11 +5,6 @@
     // Non-animated
     var pathSet   = paper.set();
     var pathGlow  = paper.set();
-    var pathText  = paper.set();
-    var pathBox   = paper.set();
-
-    var xSet = paper.set();
-    var ySet = paper.set();
 
     for (var i = 0; i < (points.length -1); i++) {
       var x1 = points[i].x;
@@ -21,16 +16,6 @@
 
       var path = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y2);
 
-      // Distance
-      // Change in X
-      var xd = Math.abs(x2 - x1);
-
-      // Change in Y
-      var yd = Math.abs(y2 - y1);
-
-      // Actual Distance (total path length)
-      var ad = path.getTotalLength().toFixed(2);
-
       // Time
       // Overall Start Time
       // TODO: This isn't tracked yet
@@ -38,41 +23,15 @@
       // Time Difference
       var td = Math.abs(t2 - t1);
 
-      var xLine = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y1);
-      var yLine = paper.path('M ' + x2 + ',' + y2 + ' L '+ x2 + ',' + y1);
-      xSet.push(xLine);
-      ySet.push(yLine);
-
       path.data({
         'i': i,
-        'x': xd,
-        'y': yd,
-        'l': ad,
         't': td
       });
 
       pathSet.push(path);
 
-      // // Add the distance label
-      // // Bounding Box for the path
-      // var pbbox  = path.getBBox();
-      // // Center - X Axis
-      // var cx    = Math.floor(pbbox.x + pbbox.width / 2.0);
-      // // Center - Y Axis
-      // var cy    = Math.floor(pbbox.y + pbbox.height / 2.0);
-      // var label = paper.text(cx, cy, ad);
-
-      // pathText.push(label);
-
-      // // Add a box for the label
-      // // Bounding Box for the label
-      // var lbbox = label.getBBox();
-      // var labelBox = paper.rect((lbbox.x - 5), (lbbox.y - 4), (lbbox.width + 10), (lbbox.height + 8));
-
-      // pathBox.push(labelBox);
+      Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
     }
-
-    //var line = paper.path('M 1123,95 L 941,76 L 473,231 L 266,326 L 137,402 L 102,433');
 
     pathSet.attr({
       'stroke': '#FFF',
@@ -82,7 +41,7 @@
     pathGlow = pathSet.glow({
       opacity: 0.25,
       offsety: 1,
-      width: 1
+      width: 2
     });
 
     pathSet.click( function () {
@@ -92,13 +51,6 @@
       console.log(this.data('l'));
       console.log(this.data('t'));
     });
-
-    pathBox.attr('fill','#000');
-
-    pathText.attr('fill','#FFF').toFront();
-
-    //xSet
-    //ySet
 
     // TODO - Add a label to the center of each path on hover only, this may help some: http://stackoverflow.com/questions/1691928/put-label-in-the-center-of-an-svg-path - may also need to do other math / style
     // Also: http://stackoverflow.com/questions/16287954/how-to-center-printd-raphael-text-in-a-space
@@ -131,6 +83,61 @@
     // });
   }
 
+  // Add Labels
+  Replayer.labelLines = function (paper, path, x1, y1, t1, x2, y2, t2) {
+    var pathText  = paper.set();
+    var pathBox   = paper.set();
+    var sqSet     = paper.set();
+    var sqGlow    = paper.set();
+
+    // Distance
+    // Change in X
+    var xd = Math.abs(x2 - x1);
+
+    // Change in Y
+    var yd = Math.abs(y2 - y1);
+
+    // Actual Distance (total path length)
+    var ad = path.getTotalLength().toFixed(2);
+
+    var sqLines = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y1 + ' L ' + x2 + ',' + y2);
+    sqSet.push(sqLines);
+
+    // Add the distance label
+    // Bounding Box for the path
+    var pbbox  = path.getBBox();
+    // Center - X Axis
+    var cx    = Math.floor(pbbox.x + pbbox.width / 2.0);
+    // Center - Y Axis
+    var cy    = Math.floor(pbbox.y + pbbox.height / 2.0);
+    var label = paper.text(cx, cy, ad);
+
+    pathText.push(label);
+
+    // Add a box for the label
+    // Bounding Box for the label
+    var lbbox = label.getBBox();
+    var labelBox = paper.rect((lbbox.x - 5), (lbbox.y - 4), (lbbox.width + 10), (lbbox.height + 8));
+
+    pathBox.push(labelBox);
+
+    pathBox.attr('fill','#000');
+
+    pathText.attr('fill','#FFF').toFront();
+
+    sqSet.attr({
+      'stroke': '#FFF',
+      'stroke-width': 2,
+      'stroke-linecap': 'square'
+    });
+
+    sqGlow = sqSet.glow({
+      opacity: 0.25,
+      offsety: 1,
+      width: 1
+    });
+  }
+
   // Draw points
   Replayer.drawPoints = function (paper, points) {
     var pointSet  = paper.set();
@@ -143,7 +150,7 @@
     }
 
     pointSet.attr({
-      'fill': 'transparent',
+      'fill': 'rgba(0,0,0,0.5)',
       'stroke': '#FFF',
       'stroke-width': 5
     });
@@ -181,8 +188,8 @@
 
     // NOTE: For now, this uses sample data loaded from sample-data.js
     var points = sampleA; // 6 data points
-    var points = sampleB; // 88 data points
-    var points = sampleC; // 9 data points
+    //var points = sampleB; // 88 data points
+    //var points = sampleC; // 9 data points
 
     Replayer.drawLines(paper, points);
     Replayer.drawPoints(paper, points);
