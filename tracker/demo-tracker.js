@@ -16,24 +16,33 @@
 
   // Finalize
   md.fin = function () {
-    var output = '<div><h3>Test Data</h3></div>';
-    output += '<div><b>Start</b> ' + md.sT + '</div>';
-    output += '<div><b>Stop</b> ' + md.eT + '</div>';
-    output += '<div><b>Duration</b> ' + (md.eT - md.sT) + '</div>';
+    var o = {};
+    o.sT = md.sT;
+    o.eT = md.eT;
+    o.duration = (md.eT - md.sT);
+    o.points = md.events;
+    o.env = md.env;
+
+    var output = JSON.stringify(o, null, 4)
+
+    // var output = '<div><h3>Test Data</h3></div>';
+    // output += '<div><b>Start</b> ' + md.sT + '</div>';
+    // output += '<div><b>Stop</b> ' + md.eT + '</div>';
+    // output += '<div><b>Duration</b> ' + (md.eT - md.sT) + '</div>';
     
-    if (md.count == 0) {
-        output += '<div><b>Event Count</b> ' + md.events.length + '</div>';
-    } else {
-        output += '<div><b>Event Count</b> ' + md.count + '</div>';
-    }
+    // if (md.count == 0) {
+    //     output += '<div><b>Event Count</b> ' + md.events.length + '</div>';
+    // } else {
+    //     output += '<div><b>Event Count</b> ' + md.count + '</div>';
+    // }
     
-    if (md.events.length) {
-        output += '<div><b>Event Data</b></div>';
+    // if (md.events.length) {
+    //     output += '<div><b>Event Data</b></div>';
         
-        $.each(md.events, function (i, v) {
-            output += '<div><span>{x: ' + v.x + ',</span><span>y: ' + v.y + ',</span><span>t: ' + v.t + '}</span></div>';
-        });
-    }
+    //     $.each(md.events, function (i, v) {
+    //         output += '<div><span>{x: ' + v.x + ',</span><span>y: ' + v.y + ',</span><span>t: ' + v.t + '}</span></div>';
+    //     });
+    // }
     
     $('#res').html(output).show();
   }

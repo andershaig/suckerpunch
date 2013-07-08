@@ -30,7 +30,7 @@
 
       pathSet.push(path);
 
-      Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
+      //Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
     }
 
     pathSet.attr({
