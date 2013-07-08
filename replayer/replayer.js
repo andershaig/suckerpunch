@@ -8,6 +8,9 @@
     var pathText  = paper.set();
     var pathBox   = paper.set();
 
+    var xSet = paper.set();
+    var ySet = paper.set();
+
     for (var i = 0; i < (points.length -1); i++) {
       var x1 = points[i].x;
       var y1 = points[i].y;
@@ -34,6 +37,11 @@
 
       // Time Difference
       var td = Math.abs(t2 - t1);
+
+      var xLine = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y1);
+      var yLine = paper.path('M ' + x2 + ',' + y2 + ' L '+ x2 + ',' + y1);
+      xSet.push(xLine);
+      ySet.push(yLine);
 
       path.data({
         'i': i,
@@ -88,6 +96,9 @@
     pathBox.attr('fill','#000');
 
     pathText.attr('fill','#FFF').toFront();
+
+    //xSet
+    //ySet
 
     // TODO - Add a label to the center of each path on hover only, this may help some: http://stackoverflow.com/questions/1691928/put-label-in-the-center-of-an-svg-path - may also need to do other math / style
     // Also: http://stackoverflow.com/questions/16287954/how-to-center-printd-raphael-text-in-a-space
