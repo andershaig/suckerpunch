@@ -17,11 +17,12 @@
   // Finalize
   md.fin = function () {
     var o = {};
-    o.sT = md.sT;
-    o.eT = md.eT;
+    o.start_time = md.sT;
+    o.end_time = md.eT;
     o.duration = (md.eT - md.sT);
+    o.point_count = md.events.length;
     o.points = md.events;
-    o.env = md.env;
+    o.environment = md.env;
 
     var output = JSON.stringify(o, null, 4)
 

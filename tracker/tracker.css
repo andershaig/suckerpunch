@@ -12,12 +12,14 @@
     position:absolute;
     top:10px;
     left:10px;
-    width:270px;
+    bottom:10px;
+    width:200px;
     display:none;
     padding:20px;
     background:#FFF;
     border:1px solid #BBB;
     cursor:default;
+    resize:none;
 }
 
 h3 {
