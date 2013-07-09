@@ -1,4 +1,8 @@
 (function ($, Replayer, undefined) {
+  var config = {
+    show_dist: false,
+    show_xy: false
+  };
 
   // Draw lines
   Replayer.drawLines = function (paper, points) {
@@ -30,7 +34,9 @@
 
       pathSet.push(path);
 
-      //Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
+      if (config.show_dist === true) {
+        Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
+      }
     }
 
     pathSet.attr({
@@ -100,8 +106,10 @@
     // Actual Distance (total path length)
     var ad = path.getTotalLength().toFixed(2);
 
-    var sqLines = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y1 + ' L ' + x2 + ',' + y2);
-    sqSet.push(sqLines);
+    if (config.show_xy === true) {
+      var sqLines = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y1 + ' L ' + x2 + ',' + y2);
+      sqSet.push(sqLines);
+    }
 
     // Add the distance label
     // Bounding Box for the path
@@ -125,17 +133,19 @@
 
     pathText.attr('fill','#FFF').toFront();
 
-    sqSet.attr({
-      'stroke': '#FFF',
-      'stroke-width': 2,
-      'stroke-linecap': 'square'
-    });
+    if (config.show_xy === true) {
+      sqSet.attr({
+        'stroke': '#FFF',
+        'stroke-width': 2,
+        'stroke-linecap': 'square'
+      });
 
-    sqGlow = sqSet.glow({
-      opacity: 0.25,
-      offsety: 1,
-      width: 1
-    });
+      sqGlow = sqSet.glow({
+        opacity: 0.25,
+        offsety: 1,
+        width: 1
+      });
+    }
   }
 
   // Draw points
