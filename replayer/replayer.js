@@ -4,6 +4,9 @@
     show_xy: false
   };
 
+  var paper;
+  var points;
+
   // Draw lines
   Replayer.drawLines = function (paper, points) {
     // Non-animated
@@ -194,12 +197,12 @@
   Replayer.init = function () {
     var width  = window.innerWidth;
     var height = window.innerHeight;
-    var paper = Raphael(0, 0, width, height);
+    paper = Raphael(0, 0, width, height);
 
     // NOTE: For now, this uses sample data loaded from sample-data.js
-    var points = sampleA; // 6 data points
-    //var points = sampleB; // 88 data points
-    //var points = sampleC; // 9 data points
+    points = sampleA; // 6 data points
+    //points = sampleB; // 88 data points
+    //points = sampleC; // 9 data points
 
     Replayer.drawLines(paper, points);
     Replayer.drawPoints(paper, points);
