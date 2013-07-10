@@ -1,7 +1,8 @@
 (function ($, Replayer, undefined) {
   var config = {
-    show_dist: false,
-    show_xy: false
+    show_dist: true,
+    show_xy: true,
+    darken: true
   };
 
   var paper;
@@ -198,6 +199,9 @@
     var width  = window.innerWidth;
     var height = window.innerHeight;
     paper = Raphael(0, 0, width, height);
+
+    var overlay = paper.rect(0, 0, width, height);
+    overlay.attr('fill','rgba(0,0,0,0.5)'); // TEMP
 
     // NOTE: For now, this uses sample data loaded from sample-data.js
     points = sampleA; // 6 data points
