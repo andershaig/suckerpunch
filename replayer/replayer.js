@@ -6,6 +6,7 @@
   };
 
   var paper;
+  var sets;
   var points;
 
   // Draw lines
