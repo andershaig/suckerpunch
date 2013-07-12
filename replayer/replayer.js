@@ -1,10 +1,4 @@
 (function ($, Replayer, undefined) {
-  var config = {
-    show_dist: true,
-    show_xy: true,
-    darken: true
-  };
-
   var paper;
   var sets = {};
   var overlay;
@@ -40,12 +34,12 @@
 
       sets.path.push(path);
 
-      Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
+      //Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
     }
 
     sets.path.attr({
       'stroke': '#FFF',
-      'stroke-width': 2.5
+      'stroke-width': 1.5
     });
 
     sets.pathGlow = sets.path.glow({
@@ -150,11 +144,12 @@
 
   // Draw points
   Replayer.drawPoints = function (paper, points) {
+    var radius     = 2;
     sets.point     = paper.set();
     sets.pointGlow = paper.set();
 
     for (var i = 0; i < points.length; i++) {
-      var point = paper.circle(points[i].x, points[i].y, 5).data({'i': i, 't': points[i].t});
+      var point = paper.circle(points[i].x, points[i].y, radius).data({'i': i, 't': points[i].t});
 
       sets.point.push(point);
     }
@@ -162,7 +157,7 @@
     sets.point.attr({
       'fill': 'rgba(0,0,0,0.5)',
       'stroke': '#FFF',
-      'stroke-width': 5
+      'stroke-width': 3
     });
 
     sets.pointGlow = sets.point.glow({
@@ -175,20 +170,20 @@
       alert(this.data('i'));
     });
 
-    // TODO - If you're coming to keep hover, do something useful with it. May have to modify glow as well
-    sets.point.hover( function () {
-      this.attr('stroke-width', 6);
+    // TODO - If you're goming to keep hover, do something useful with it.
+    // sets.point.hover( function () {
+    //   this.attr('stroke-width', 6);
 
-      this.g = this.glow({
-        opacity: 0.35,
-        offsety: 1,
-        width: 8
-      });
-    }, function () {
-      this.attr('stroke-width', 5);
+    //   this.g = this.glow({
+    //     opacity: 0.35,
+    //     offsety: 1,
+    //     width: 8
+    //   });
+    // }, function () {
+    //   this.attr('stroke-width', 5);
 
-      this.g.remove();
-    });
+    //   this.g.remove();
+    // });
   }
 
   Replayer.init = function () {
@@ -197,13 +192,13 @@
     var height = window.innerHeight;
     paper = Raphael(0, 0, width, height);
 
-    //
+    // Overlay
     overlay = paper.rect(0, 0, width, height);
-    overlay.attr('fill','rgba(0,0,0,0.5)'); // TEMP
+    overlay.attr('fill','rgba(0,0,0,0.25)'); // TEMP
 
     // NOTE: For now, this uses sample data loaded from sample-data.js
-    points = sampleA; // 6 data points
-    //points = sampleB; // 88 data points
+    //points = sampleA; // 6 data points
+    points = sampleB; // 88 data points
     //points = sampleC; // 9 data points
 
     Replayer.drawLines(paper, points);
