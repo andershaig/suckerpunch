@@ -198,8 +198,8 @@
 
     // NOTE: For now, this uses sample data loaded from sample-data.js
     //points = sampleA; // 6 data points
-    points = sampleB; // 88 data points
-    //points = sampleC; // 9 data points
+    //points = sampleB; // 88 data points
+    points = sampleC; // 9 data points
 
     Replayer.drawLines(paper, points);
     Replayer.drawPoints(paper, points);

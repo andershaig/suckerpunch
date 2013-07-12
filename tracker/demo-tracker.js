@@ -6,6 +6,7 @@
   md.count = 0;
 
   // Coords
+  md.allEvents = [];
   md.events = [];
 
   // End Time
@@ -13,6 +14,24 @@
 
   // Environment Data
   md.env = {};
+
+  // Temp Data Holder
+  md.tX = null;
+  md.tY = null;
+  md.tT = null;
+
+  // Store Temp Data
+  md.sTd = function (e) {
+    md.allEvents.push({
+      x: e.pageX,
+      y: e.pageY,
+      t: e.timeStamp
+    });
+
+    md.tX = e.pageX;
+    md.tY = e.pageY;
+    md.tT = e.timeStamp;
+  }
 
   // Finalize
   md.fin = function () {
@@ -22,6 +41,8 @@
     o.duration = (md.eT - md.sT);
     o.point_count = md.events.length;
     o.points = md.events;
+    o.all_points_count = md.allEvents.length;
+    o.all_point = md.allEvents;
     o.environment = md.env;
 
     var output = JSON.stringify(o, null, 4)
@@ -53,21 +74,29 @@
     md.count++;
   }
 
-  // Track Points
-  md.tP = function (e) {
-    md.events.push({
-      x: e.pageX,
-      y: e.pageY,
-      t: e.timeStamp
-    });
+  // Track Points at 100ms interval
+  md.tP = function () {
+    if (md.tX !== null && md.tY !== null && md.tT !== null) {
+      md.events.push({
+        x: md.tX,
+        y: md.tY,
+        t: md.tT
+      });
+    }
   }
 
   $(document).ready( function () {
     $('#el').on({
       mousedown: function (e) {
         md.sT = e.timeStamp;
+
+        md.tX = e.pageX;
+        md.tY = e.pageY;
+        md.tT = e.timeStamp;
         
-        $(this).on('mousemove', md.tP); 
+        $(this).on('mousemove', md.sTd);
+
+        md.int = window.setInterval(md.tP, 100);
       },
       mouseup: function(e) {
         md.eT = e.timeStamp;
@@ -75,6 +104,8 @@
         $(this).off('mousemove').off('mousedown').off('mouseup');
         
         md.fin();
+
+        clearInterval(md.int);
       }
     });
   });
