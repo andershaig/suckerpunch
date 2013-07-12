@@ -6,3 +6,19 @@
 body {
   background:url(http://i.imgur.com/m6SQxHi.png) 0 0 no-repeat;
 }
+
+#controls {
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:999;
+  width:100px;
+  padding:20px;
+}
+
+#controls button {
+  cursor:pointer;
+  display:block;
+  width:100px;
+  text-align:center;
+}

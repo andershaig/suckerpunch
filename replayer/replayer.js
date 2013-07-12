@@ -6,14 +6,15 @@
   };
 
   var paper;
-  var sets;
+  var sets = {};
+  var overlay;
   var points;
 
   // Draw lines
   Replayer.drawLines = function (paper, points) {
     // Non-animated
-    var pathSet   = paper.set();
-    var pathGlow  = paper.set();
+    sets.path = paper.set();
+    sets.pathGlow  = paper.set();
 
     for (var i = 0; i < (points.length -1); i++) {
       var x1 = points[i].x;
@@ -37,25 +38,23 @@
         't': td
       });
 
-      pathSet.push(path);
+      sets.path.push(path);
 
-      if (config.show_dist === true) {
-        Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
-      }
+      Replayer.labelLines(paper, path, x1, y1, t1, x2, y2, t2);
     }
 
-    pathSet.attr({
+    sets.path.attr({
       'stroke': '#FFF',
       'stroke-width': 2.5
     });
 
-    pathGlow = pathSet.glow({
+    sets.pathGlow = sets.path.glow({
       opacity: 0.25,
       offsety: 1,
       width: 2
     });
 
-    pathSet.click( function () {
+    sets.path.click( function () {
       console.log(this.data('i'));
       console.log(this.data('x'));
       console.log(this.data('y'));
@@ -96,10 +95,10 @@
 
   // Add Labels
   Replayer.labelLines = function (paper, path, x1, y1, t1, x2, y2, t2) {
-    var pathText  = paper.set();
-    var pathBox   = paper.set();
-    var sqSet     = paper.set();
-    var sqGlow    = paper.set();
+    sets.pathText = paper.set();
+    sets.pathBox  = paper.set();
+    sets.xy       = paper.set();
+    sets.xyGlow   = paper.set();
 
     // Distance
     // Change in X
@@ -111,10 +110,8 @@
     // Actual Distance (total path length)
     var ad = path.getTotalLength().toFixed(2);
 
-    if (config.show_xy === true) {
-      var sqLines = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y1 + ' L ' + x2 + ',' + y2);
-      sqSet.push(sqLines);
-    }
+    var sqLines = paper.path('M ' + x1 + ',' + y1 + ' L '+ x2 + ',' + y1 + ' L ' + x2 + ',' + y2);
+    sets.xy.push(sqLines);
 
     // Add the distance label
     // Bounding Box for the path
@@ -125,63 +122,61 @@
     var cy    = Math.floor(pbbox.y + pbbox.height / 2.0);
     var label = paper.text(cx, cy, ad);
 
-    pathText.push(label);
+    sets.pathText.push(label);
 
     // Add a box for the label
     // Bounding Box for the label
     var lbbox = label.getBBox();
     var labelBox = paper.rect((lbbox.x - 5), (lbbox.y - 4), (lbbox.width + 10), (lbbox.height + 8));
 
-    pathBox.push(labelBox);
+    sets.pathBox.push(labelBox);
 
-    pathBox.attr('fill','#000');
+    sets.pathBox.attr('fill','#000');
 
-    pathText.attr('fill','#FFF').toFront();
+    sets.pathText.attr('fill','#FFF').toFront();
 
-    if (config.show_xy === true) {
-      sqSet.attr({
-        'stroke': '#FFF',
-        'stroke-width': 2,
-        'stroke-linecap': 'square'
-      });
+    sets.xy.attr({
+      'stroke': '#FFF',
+      'stroke-width': 2,
+      'stroke-linecap': 'square'
+    });
 
-      sqGlow = sqSet.glow({
-        opacity: 0.25,
-        offsety: 1,
-        width: 1
-      });
-    }
+    sets.xyGlow = sets.xy.glow({
+      opacity: 0.25,
+      offsety: 1,
+      width: 1
+    });
   }
 
   // Draw points
   Replayer.drawPoints = function (paper, points) {
-    var pointSet  = paper.set();
-    var pointGlow = paper.set();
+    sets.point     = paper.set();
+    sets.pointGlow = paper.set();
 
     for (var i = 0; i < points.length; i++) {
       var point = paper.circle(points[i].x, points[i].y, 5).data({'i': i, 't': points[i].t});
 
-      pointSet.push(point);
+      sets.point.push(point);
     }
 
-    pointSet.attr({
+    sets.point.attr({
       'fill': 'rgba(0,0,0,0.5)',
       'stroke': '#FFF',
       'stroke-width': 5
     });
 
-    pointGlow = pointSet.glow({
+    sets.pointGlow = sets.point.glow({
       opacity: 0.35,
       offsety: 1,
       width: 2
     });
 
-    pointSet.click( function () {
+    sets.point.click( function () {
       alert(this.data('i'));
     });
 
     // TODO - If you're coming to keep hover, do something useful with it. May have to modify glow as well
-    pointSet.hover( function () {
+    sets.point.hover( function () {
       this.attr('stroke-width', 6);
 
       this.g = this.glow({
@@ -197,11 +192,13 @@
   }
 
   Replayer.init = function () {
+    // Create blank canvas
     var width  = window.innerWidth;
     var height = window.innerHeight;
     paper = Raphael(0, 0, width, height);
 
-    var overlay = paper.rect(0, 0, width, height);
+    //
+    overlay = paper.rect(0, 0, width, height);
     overlay.attr('fill','rgba(0,0,0,0.5)'); // TEMP
 
     // NOTE: For now, this uses sample data loaded from sample-data.js
@@ -211,8 +208,51 @@
 
     Replayer.drawLines(paper, points);
     Replayer.drawPoints(paper, points);
+
+    // Bindings
+    $('#overlay').on('click', function (){
+      overlay.show();
+    });
+
+    $('#show_points').on('click', function (){
+      sets.point.show();
+      sets.pointGlow.show();
+    });
+
+    $('#show_path').on('click', function (){
+      sets.path.show();
+      sets.pathGlow.show();
+    });
+
+    $('#show_dist').on('click', function (){
+      sets.pathText.show();
+      sets.pathBox.show();
+    });
+
+    $('#show_xy').on('click', function (){
+      sets.xy.hide();
+      sets.xyGlow.hide();
+    });
+
+    $('#show_xy_labels').on('click', function (){
+      // Don't have this yet
+    });
+
+    $('#hide_all').on('click', function (){ 
+      // Hide Everything
+      overlay.hide();
+      sets.point.hide();
+      sets.pointGlow.hide();
+      sets.path.hide();
+      sets.pathGlow.hide();
+      sets.pathText.hide();
+      sets.pathBox.hide();
+      sets.xy.hide();
+      sets.xyGlow.hide();
+    });
   }
 
+  // Kick it off
   $(document).ready( function () {
     Replayer.init();
   });
