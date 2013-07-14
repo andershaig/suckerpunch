@@ -197,9 +197,14 @@
     overlay.attr('fill','rgba(0,0,0,0.25)'); // TEMP
 
     // NOTE: For now, this uses sample data loaded from sample-data.js
-    //points = sampleA; // 6 data points
-    //points = sampleB; // 88 data points
-    points = sampleC; // 9 data points
+    // sampleA = 19 data points
+    // sampleB = 12 data points
+    // sampleC = 6 data points
+    // sampleD = 7 data points
+
+    // Set data (or sample)
+    // TODO - Rework to use or display all data, not just the points
+    points = sampleA.points;
 
     Replayer.drawLines(paper, points);
     Replayer.drawPoints(paper, points);
