@@ -1,0 +1,185 @@
+/* ----------------------------
+Author: Anders Haig = minim.co
+Version: 1.4
+---------------------------- */
+
+/*----------------------/
+/// Reset ///////////////
+/----------------------*/
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/*----------------------/
+/// Global //////////////
+/----------------------*/
+
+html {
+  background: #FFF;
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+     -moz-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+
+body {
+  font-size: 14px;
+  line-height: 1.35;
+  font-family: 'Helvetica Neue', Helvetica, 'Arial Rounded MT Bold', Arial, sans-serif;
+  font-weight: 400;
+  color: #333;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9; /* IE */
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  color: #333;
+  margin: 2px 0 6px;
+  font-family: inherit;
+  line-height: 1;
+  text-rendering: optimizelegibility;
+}
+
+h1 {
+  font-size: 40px;
+  line-height: 40px;
+}
+
+h2 {
+  font-size: 30px;
+  line-height: 40px;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 40px;
+}
+
+h4 {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+h5 {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+h6 {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+p {
+
+}
+
+a {
+  color: inherit;
+}
+
+/*----------------------/
+/// Grid ////////////////
+/----------------------*/
+.clearfix:after,
+.row:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix,
+.row {
+  display: inline-block;
+}
+
+.clearfix,
+.row {
+  display: block;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+  margin: 0 auto;
+  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+       -o-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+.row {
+  position: relative;
+  width: 100%;
+  *zoom: 1;
+}
+
+/*----------------------/
+/// CUSTOM //////////////
+/----------------------*/
+
+.drag-area {
+  width:20%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  background:#EEE; /* TEMP */
+}
+
+.drag-item {
+
+}
+
+.drop-area {
+  width:40%;
+  height:100%;
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  background:#EEE; /* TEMP */
+}
+
+.drop-area-left {
+  width:50%;
+  height:100%;
+  float:left;
+  background:#DDD; /* TEMP */
+}
+
+.drop-area-right {
+  width:50%;
+  height:100%;
+  float:left;
+  background:#CCC; /* TEMP */
+}
+
+
+
+
+
+
+
+
+
+
