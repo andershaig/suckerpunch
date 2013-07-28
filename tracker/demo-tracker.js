@@ -1,49 +1,56 @@
-(function ($, md, undefined) {
+(function ($, Tracker, undefined) {
+  // Config
+  var config = {
+    interval: 100
+  };
+
   // Start Time
-  md.sT = null;
+  Tracker.sT = null;
 
   // Count
-  md.count = 0;
+  Tracker.count = 0;
 
   // Coords
-  md.allEvents = [];
-  md.events = [];
+  Tracker.allEvents = [];
+  Tracker.events = [];
 
   // End Time
-  md.eT = null;
+  Tracker.eT = null;
 
   // Environment Data
-  md.env = {};
+  Tracker.env = {};
 
   // Temp Data Holder
-  md.tX = null;
-  md.tY = null;
-  md.tT = null;
+  var temp = {
+    tX: null,
+    tY: null,
+    tT: null
+  };
 
   // Store Temp Data
-  md.sTd = function (e) {
-    md.allEvents.push({
+  Tracker.sTd = function (e) {
+    Tracker.allEvents.push({
       x: e.pageX,
       y: e.pageY,
       t: e.timeStamp
     });
 
-    md.tX = e.pageX;
-    md.tY = e.pageY;
-    md.tT = e.timeStamp;
+    temp.tX = e.pageX;
+    temp.tY = e.pageY;
+    temp.tT = e.timeStamp;
   }
 
   // Finalize
-  md.fin = function () {
+  Tracker.fin = function () {
     var o = {};
-    o.start_time = md.sT;
-    o.end_time = md.eT;
-    o.duration = (md.eT - md.sT);
-    o.point_count = md.events.length;
-    o.points = md.events;
-    o.all_points_count = md.allEvents.length;
-    o.all_point = md.allEvents;
-    o.environment = md.env;
+    o.start_time = Tracker.sT;
+    o.end_time = Tracker.eT;
+    o.duration = (Tracker.eT - Tracker.sT);
+    o.point_count = Tracker.events.length;
+    o.points = Tracker.events;
+    o.all_points_count = Tracker.allEvents.length;
+    o.all_point = Tracker.allEvents;
+    o.environment = Tracker.env;
 
     var output = JSON.stringify(o, null, 4)
 
@@ -70,17 +77,17 @@
   }
 
   // Track Count
-  md.tC = function () {
-    md.count++;
+  Tracker.tC = function () {
+    Tracker.count++;
   }
 
-  // Track Points at 100ms interval
-  md.tP = function () {
-    if (md.tX !== null && md.tY !== null && md.tT !== null) {
-      md.events.push({
-        x: md.tX,
-        y: md.tY,
-        t: md.tT
+  // Track Points at interval
+  Tracker.tP = function () {
+    if (temp.tX !== null && temp.tY !== null && temp.tT !== null) {
+      Tracker.events.push({
+        x: temp.tX,
+        y: temp.tY,
+        t: temp.tT
       });
     }
   }
@@ -88,28 +95,28 @@
   $(document).ready( function () {
     $('#el').on({
       mousedown: function (e) {
-        md.sT = e.timeStamp;
+        Tracker.sT = e.timeStamp;
 
-        md.tX = e.pageX;
-        md.tY = e.pageY;
-        md.tT = e.timeStamp;
+        temp.tX = e.pageX;
+        temp.tY = e.pageY;
+        temp.tT = e.timeStamp;
         
-        $(this).on('mousemove', md.sTd);
+        $(this).on('mousemove', Tracker.sTd);
 
-        md.int = window.setInterval(md.tP, 100);
+        Tracker.int = window.setInterval(Tracker.tP, config.interval);
       },
       mouseup: function(e) {
-        md.eT = e.timeStamp;
+        Tracker.eT = e.timeStamp;
         
         $(this).off('mousemove').off('mousedown').off('mouseup');
         
-        md.fin();
+        Tracker.fin();
 
-        clearInterval(md.int);
+        clearInterval(Tracker.int);
       }
     });
   });
-}(jQuery, window.md = window.md || {}));
+}(jQuery, window.Tracker = window.Tracker || {}));
 
 // Track Environment Data
 window.session = {
@@ -117,8 +124,8 @@ window.session = {
     gapi_location: false
   },
   start: function (session) {
-    md.env.browser = window.session.browser;
-    md.env.plugins = window.session.plugins;
-    md.env.device  = window.session.device;
+    Tracker.env.browser = window.session.browser;
+    Tracker.env.plugins = window.session.plugins;
+    Tracker.env.device  = window.session.device;
   }
 }
