@@ -20,7 +20,7 @@ Version: 1.4
 /----------------------*/
 
 html {
-  background: #FFF;
+  background: #D1D8DB;
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
      -moz-text-size-adjust: 100%;
@@ -139,7 +139,6 @@ a {
   left:0;
   top:0;
   bottom:0;
-  background:#EEE; /* TEMP */
 }
 
 .drag-item {
@@ -151,27 +150,53 @@ a {
   margin-top:-25px;
   margin-left:-25px;
   border-radius:50%;
-  background:#AAA; /* TEMP */
+  cursor:move;
+  background: #FEFEFE;
+  background: -moz-linear-gradient(top, #FEFEFE 0%, #F7F8F9 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FEFEFE), color-stop(100%,#F7F8F9));
+  background: -webkit-linear-gradient(top, #FEFEFE 0%,#F7F8F9 100%);
+  background: -o-linear-gradient(top, #FEFEFE 0%,#F7F8F9 100%);
+  background: -ms-linear-gradient(top, #FEFEFE 0%,#F7F8F9 100%);
+  background: linear-gradient(top, #FEFEFE 0%,#F7F8F9 100%);
+  -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 
+                inset 0 -3px 1px 0 rgba(0, 0, 0, 0.07);
+     -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 
+                inset 0 -3px 1px 0 rgba(0, 0, 0, 0.07);
+          box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 
+                inset 0 -3px 1px 0 rgba(0, 0, 0, 0.07);
+}
+
+.drag-item:hover {
+  -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.35), 
+                inset 0 -3px 1px 0 rgba(0, 0, 0, 0.07);
+     -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.35), 
+                inset 0 -3px 1px 0 rgba(0, 0, 0, 0.07);
+          box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.35), 
+                inset 0 -3px 1px 0 rgba(0, 0, 0, 0.07);
+}
+
+.drag-item-icon {
+  width:50px;
+  height:50px;
+  background:url(drag.png) center center no-repeat;
 }
 
 .drop-area-left {
-  width:15%;
+  width:120px;
   height:100%;
   position:absolute;
-  right:15%;
+  right:175px;
   top:0;
   bottom:0;
-  background:#DDD; /* TEMP */
 }
 
 .drop-area-right {
-  width:15%;
+  width:120px;
   height:100%;
   position:absolute;
-  right:0;
+  right:50px;
   top:0;
   bottom:0;
-  background:#CCC; /* TEMP */
 }
 
 .single-drop {
@@ -182,7 +207,45 @@ a {
   margin-top:-50px;
   margin-left:-50px;
   border-radius:50%;
-  background:#AAA; /* TEMP */
+  text-align:center;
+  line-height:100px;
+  font-size:48px;
+  font-weight:bold;
+  color:rgba(255,255,255,0.8);
+  cursor:pointer;
+  background: rgba(0,0,0,0.15);
+  text-shadow: 0 5px 5px rgba(0,0,0,0.1),
+               5px 10px 5px rgba(0,0,0,0.05),
+               -5px 10px 5px rgba(0,0,0,0.05);
+  -webkit-box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.4), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35);
+     -moz-box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.4), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35);
+          box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.4), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35);
+}
+
+.single-drop:hover {
+  border:1px solid #F89627;
+  background: rgba(0,0,0,0.35);
+  -webkit-box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.35), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35),
+                      0 0 0 5px #FAB669,
+                      0 0 10px 0 rgba(0,0,0,0.35);
+     -moz-box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.35), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35),
+                      0 0 0 5px #FAB669,
+                      0 0 10px 0 rgba(0,0,0,0.35);
+          box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.35), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35),
+                      0 0 0 5px #FAB669,
+                      0 0 10px 0 rgba(0,0,0,0.35);
 }
 
 .single-drop:nth-child(1) {
