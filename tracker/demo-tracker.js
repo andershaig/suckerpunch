@@ -191,27 +191,37 @@
     }
   }
 
+  // Start Tracker
+  Tracker.start = function (e) {
+    Tracker.sT = e.timeStamp;
+
+    temp.tX = e.pageX;
+    temp.tY = e.pageY;
+    temp.tT = e.timeStamp;
+    
+    $(document).on('mousemove', Tracker.sTd);
+
+    Tracker.int = window.setInterval(Tracker.tP, config.interval);
+  }
+
+  // Stop Tracker
+  Tracker.stop = function (e) {
+    Tracker.eT = e.timeStamp;
+    
+    $(document).off('mousemove');
+    
+    Tracker.fin();
+
+    clearInterval(Tracker.int);
+  }
+
   $(document).ready( function () {
     $('#el').on({
       mousedown: function (e) {
-        Tracker.sT = e.timeStamp;
-
-        temp.tX = e.pageX;
-        temp.tY = e.pageY;
-        temp.tT = e.timeStamp;
-        
-        $(this).on('mousemove', Tracker.sTd);
-
-        Tracker.int = window.setInterval(Tracker.tP, config.interval);
+        Tracker.start(e);
       },
       mouseup: function(e) {
-        Tracker.eT = e.timeStamp;
-        
-        $(this).off('mousemove').off('mousedown').off('mouseup');
-        
-        Tracker.fin();
-
-        clearInterval(Tracker.int);
+        Tracker.stop(e);
       }
     });
   });

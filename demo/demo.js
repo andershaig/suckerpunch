@@ -1,7 +1,9 @@
 $(function() {
 
   // Draggable
-  $('.drag-item').draggable();
+  $('.drag-item').draggable({
+    revert: true
+  });
 
   // Droppable
   $('.single-drop').droppable({
