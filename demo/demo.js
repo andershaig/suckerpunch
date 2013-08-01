@@ -7,6 +7,8 @@ $(function() {
 
   // Droppable
   $('.single-drop').droppable({
+    activeClass: 'ui-state-hover',
+    hoverClass: 'ui-state-active',
     drop: function (event, ui) {
       alert('Dropped!');
     }
