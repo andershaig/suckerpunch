@@ -142,6 +142,7 @@ a {
 }
 
 .drag-item {
+  z-index:20;
   position:absolute;
   left:50%;
   top:50%;
@@ -200,6 +201,7 @@ a {
 }
 
 .single-drop {
+  z-index:10;
   position:absolute;
   left:50%;
   width:100px;
@@ -213,6 +215,7 @@ a {
   font-weight:bold;
   color:rgba(255,255,255,0.8);
   cursor:pointer;
+  border:1px solid transparent;
   background: rgba(0,0,0,0.15);
   text-shadow: 0 5px 5px rgba(0,0,0,0.1),
                5px 10px 5px rgba(0,0,0,0.05),
@@ -229,7 +232,7 @@ a {
 }
 
 .single-drop:hover, .single-drop.ui-state-active {
-  border:1px solid #F89627;
+  border:1px solid #D47407;
   background: rgba(0,0,0,0.35);
   -webkit-box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
                       1px 1px 1px 0 rgba(255, 255, 255, 0.35), 
@@ -245,6 +248,26 @@ a {
                       1px 1px 1px 0 rgba(255, 255, 255, 0.35), 
                       inset 0 0 1px 0 rgba(0,0,0,0.35),
                       0 0 0 5px #FAB669,
+                      0 0 10px 0 rgba(0,0,0,0.35);
+}
+
+.single-drop.ui-state-finished {
+  border:1px solid #D10239;
+  background: rgba(0,0,0,0.5);
+  -webkit-box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.25), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35),
+                      0 0 0 5px #FD2B63,
+                      0 0 10px 0 rgba(0,0,0,0.35);
+     -moz-box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.25), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35),
+                      0 0 0 5px #FD2B63,
+                      0 0 10px 0 rgba(0,0,0,0.35);
+          box-shadow: inset 3px 3px 15px 2px rgba(0, 0, 0, 0.2), 
+                      1px 1px 1px 0 rgba(255, 255, 255, 0.25), 
+                      inset 0 0 1px 0 rgba(0,0,0,0.35),
+                      0 0 0 5px #FD2B63,
                       0 0 10px 0 rgba(0,0,0,0.35);
 }
 

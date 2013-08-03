@@ -10,7 +10,10 @@ $(function() {
     activeClass: 'ui-state-hover',
     hoverClass: 'ui-state-active',
     drop: function (event, ui) {
-      alert('Dropped!');
+      console.log(event);
+      console.log(ui);
+      console.log('Dropped on ' + $(this).data('val'));
+      $(this).addClass('ui-state-finished');
     }
   });
 });
