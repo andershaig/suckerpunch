@@ -1,8 +1,7 @@
 (function ($, Tracker, undefined) {
   // Config
-  Tracker.config = {
-    interval: 100
-  };
+  Tracker.interval = 100;
+  Tracker.disabled = false;
 
   // Set or reset event arrays
   Tracker.prep = function () {
@@ -44,32 +43,38 @@
 
   // Start Tracker
   Tracker.start = function (e) {
-    console.log('Tracker started');
+    if (!Tracker.disabled) {
+      console.log('Tracker started');
 
-    Tracker.prep();
+      Tracker.prep();
 
-    // Execution Times
-    Tracker.sT = e.timeStamp;
+      // Execution Times
+      Tracker.sT = e.timeStamp;
 
-    temp = e;
-    
-    // Start tracking mouse
-    $(document).on('mousemove', Tracker.sTd);
+      temp = e;
+      
+      // Start tracking mouse
+      $(document).on('mousemove', Tracker.sTd);
 
-    Tracker.int = window.setInterval(Tracker.tP, Tracker.config.interval);
+      Tracker.int = window.setInterval(Tracker.tP, Tracker.interval);
+    }
   }
 
   // Stop Tracker
   Tracker.stop = function (e) {
-    console.log('Tracker stopped');
+    if (!Tracker.disabled) {
+      console.log('Tracker stopped');
 
-    Tracker.eT = e.timeStamp;
-    
-    $(document).off('mousemove');
-    
-    Tracker.fin();
+      Tracker.eT = e.timeStamp;
+      
+      $(document).off('mousemove');
 
-    clearInterval(Tracker.int);
+      Tracker.disabled = true;
+      
+      Tracker.fin();
+
+      clearInterval(Tracker.int);
+    }
   }
 
   // Finalize
