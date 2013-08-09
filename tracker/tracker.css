@@ -2,10 +2,13 @@
 /// Reset ///////////////
 /----------------------*/
 
-* {
+#tracker-bar, #tracker-bar * {
   margin: 0;
   padding: 0;
   font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight:600;
+  font-size:14px;
+  -webkit-font-smoothing: antialiased;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -18,7 +21,8 @@
   right: 0;
   top: 0;
   height:30px;
-  background:#555;
+  background:#444;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
   z-index:999;
 }
 
@@ -34,11 +38,13 @@
   height:10px;
   border-radius:50%;
   margin:10px;
-  background:red;
+  background-color: #FF0000;
+  box-shadow: #000 0 -1px 7px 1px, inset #660000 0 -1px 9px, #FF5555 0 2px 12px;
 }
 
 #tracker-status-light.tracking {
-  background:green;
+  background-color: #80EE00;
+  box-shadow: #000000 0 -1px 7px 1px, inset #446600 0 -1px 9px, #A9FF44 0 2px 12px;
 }
 
 #tracker-title {
@@ -46,10 +52,10 @@
   width:calc(100% - 461px);
   border-left:1px solid rgba(255,255,255,0.25);
   border-right:1px solid rgba(0,0,0,0.8);
-  color:#FFF;
+  color:rgba(255,255,255,0.8);
   height:30px;
   line-height:30px;
-  padding-left:5px;
+  padding-left:10px;
 }
 
 #tracker-uuid {
@@ -58,18 +64,27 @@
   width:250px;
   border-left:1px solid rgba(255,255,255,0.25);
   border-right:1px solid rgba(0,0,0,0.8);
-  padding:5px;
 }
 
 #uuid {
   display:block;
-  background:#FFF;
+  background:transparent;
+  color:rgba(255,255,255,0.8);
   border:none;
-  height:20px;
+  height:30px;
   line-height:20px;
-  padding:0 5px;
-  font-size:13px;
+  padding:5px 10px;
   width:100%;
+}
+
+::-webkit-input-placeholder {
+  color:rgba(255,255,255,0.8);
+}
+
+#uuid:focus {
+  outline:none;
+  color:#333;
+  background:#FFF;
 }
 
 #tracker-controls {
@@ -82,8 +97,8 @@
   float:left;
   display:block;
   border:none;
-  background:#555;
-  color:#FFF;
+  color:rgba(255,255,255,0.8);
+  background:transparent;
   height:30px;
   line-height:30px;
   width:60px;
@@ -91,14 +106,14 @@
   border-left:1px solid rgba(255,255,255,0.25);
   border-right:1px solid rgba(0,0,0,0.8);
   cursor:pointer;
-  font-size:13px;
 }
 
 #tracker-controls button:hover {
-  background:#666;
+  background:#555;
+  color:#FFF;
 }
 
-#tracker-reset {
+#tracker-ready {
 
 }
 

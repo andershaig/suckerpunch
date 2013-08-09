@@ -2,8 +2,9 @@
   // Config
   Tracker.version   = 0.1;
   Tracker.interval  = 100;
-  Tracker.disabled  = false;
+  Tracker.disabled  = true;
   Tracker.completed = false;
+  Tracker.uuid      = null;
 
   // Set or reset event arrays
   Tracker.prep = function () {
@@ -53,6 +54,8 @@
     if (!Tracker.disabled) {
       Tracker.startTime = e.timeStamp;
 
+      $('#tracker-status-light').addClass('tracking');
+
       Tracker.prep();
 
       temp = e;
@@ -68,6 +71,8 @@
   Tracker.stop = function (e) {
     if (!Tracker.disabled) {
       Tracker.endTime = e.timeStamp;
+
+      $('#tracker-status-light').removeClass('tracking');
       
       $(document).off('mousemove');
 
@@ -81,24 +86,25 @@
 
   // When everything is done
   Tracker.complete = function () {
-    Tracker.o = {};
-
-    o.version     = Tracker.version;
-    o.start_time  = Tracker.startTime;
-    o.end_time    = Tracker.endTime;
-    o.duration    = (Tracker.endTime - Tracker.startTime);
-    o.point_count = Tracker.points.length;
-    o.points      = Tracker.points;
-    o.event_count = Tracker.events.length;
-    o.events      = Tracker.events;
-    o.environment = Tracker.env;
+    Tracker.o = {
+      uuid:          Tracker.uuid,
+      version:       Tracker.version,
+      start_time:    Tracker.startTime,
+      end_time:      Tracker.endTime,
+      duration:      (Tracker.endTime - Tracker.startTime),
+      point_count:   Tracker.points.length,
+      event_count:   Tracker.events.length,
+      points:        Tracker.points,
+      events:        Tracker.events,
+      environment:   Tracker.env
+    };
 
     Tracker.completed = true;
   }
 
   // View Data
   Tracker.view = function () {
-    var output = JSON.stringify(o, null, 4);
+    var output = JSON.stringify(Tracker.o, null, 4);
     $('#res').html(output).show();
   }
 
@@ -109,9 +115,10 @@
 
   // Bindings
   // TODO - Consider adding the tracker bar html to the lib as well?
-  $(document).on('click', '#tracker-reset', function () {
+  $(document).on('click', '#tracker-ready', function () {
     Tracker.disabled  = false;
     Tracker.completed = false;
+    $('#res').hide();
   });
 
   $(document).on('click', '#tracker-view', function () {
@@ -128,17 +135,14 @@
     }
   });
 
-}(jQuery, window.Tracker = window.Tracker || {}));
+  $(document).on('keyup', '#uuid', function () {
+    var uuid = $(this).val();
 
-// Temp location for kicking it off
-$(document).ready( function () {
-  // When to start and stop
-  $('#el').on({
-    mousedown: function (e) {
-      Tracker.start(e);
-    },
-    mouseup: function(e) {
-      Tracker.stop(e);
+    if (uuid) {
+      Tracker.uuid = uuid;
+    } else {
+      Tracker.uuid = null;
     }
   });
-});
+
+}(jQuery, window.Tracker = window.Tracker || {}));
