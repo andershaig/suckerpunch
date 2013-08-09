@@ -6,61 +6,38 @@
 
   // Set or reset event arrays
   Tracker.prep = function () {
-    Tracker.allEvents = [];
     Tracker.events = [];
+    Tracker.points = [];
+
+    // Environment Data
+    Tracker.env = {
+      browser: Env.browser(),
+      plugins: Env.plugins(),
+      device:  Env.device()
+    };
   }
 
-  // Environment Data
-  Tracker.env = {
-    browser: Env.browser(),
-    plugins: Env.plugins(),
-    device:  Env.device()
-  };
-
   // Temp Data Holder
-  var temp = {
-    tX: null,
-    tY: null,
-    tT: null
-  };
+  var temp = {};
 
   // Store Temp Data
   Tracker.sTd = function (e) {
-    Tracker.allEvents.push({
+    Tracker.events.push({
       x: e.pageX,
       y: e.pageY,
       t: e.timeStamp
     });
 
-    temp.tX = e.pageX;
-    temp.tY = e.pageY;
-    temp.tT = e.timeStamp;
-  }
-
-  // Finalize
-  Tracker.fin = function () {
-    var o = {};
-    o.start_time = Tracker.sT;
-    o.end_time = Tracker.eT;
-    o.duration = (Tracker.eT - Tracker.sT);
-    o.point_count = Tracker.events.length;
-    o.points = Tracker.events;
-    o.all_points_count = Tracker.allEvents.length;
-    o.all_point = Tracker.allEvents;
-    o.environment = Tracker.env;
-
-    var output = JSON.stringify(o, null, 4)
-    
-    $('#res').html(output).show();
+    temp = e;
   }
 
   // Track Points at interval
   Tracker.tP = function () {
     if (temp.tX !== null && temp.tY !== null && temp.tT !== null) {
-      Tracker.events.push({
-        x: temp.tX,
-        y: temp.tY,
-        t: temp.tT
+      Tracker.points.push({
+        x: temp.pageX,
+        y: temp.pageY,
+        t: temp.timeStamp
       });
     }
   }
@@ -74,9 +51,7 @@
     // Execution Times
     Tracker.sT = e.timeStamp;
 
-    temp.tX = e.pageX;
-    temp.tY = e.pageY;
-    temp.tT = e.timeStamp;
+    temp = e;
     
     // Start tracking mouse
     $(document).on('mousemove', Tracker.sTd);
@@ -96,9 +71,27 @@
 
     clearInterval(Tracker.int);
   }
+
+  // Finalize
+  Tracker.fin = function () {
+    var o = {};
+    o.start_time  = Tracker.sT;
+    o.end_time    = Tracker.eT;
+    o.duration    = (Tracker.eT - Tracker.sT);
+    o.point_count = Tracker.points.length;
+    o.points      = Tracker.points;
+    o.event_count = Tracker.events.length;
+    o.events      = Tracker.events;
+    o.environment = Tracker.env;
+
+    var output = JSON.stringify(o, null, 4)
+    
+    $('#res').html(output).show();
+  }
+
 }(jQuery, window.Tracker = window.Tracker || {}));
 
-// Temp location for this
+// Temp location for kicking it off
 $(document).ready( function () {
   // When to start and stop
   $('#el').on({
