@@ -125,18 +125,7 @@
 
 }
 
-/* Demo CSS */
-#el {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: #DDD;
-    cursor: crosshair;
-}
-
-#res {
+#tracker-result {
     position:absolute;
     top:10px;
     left:10px;
@@ -148,34 +137,4 @@
     border:1px solid #BBB;
     cursor:default;
     resize:none;
-}
-
-h3 {
-    font-size:18px;
-    font-weight:bold;
-    margin-bottom:10px;
-}
-
-#res div {
-    margin-bottom:5px;
-    padding-bottom:5px;
-    border-bottom:1px dashed #EEE;
-}
-
-#res b {
-    display:inline-block;
-    width:120px;
-}
-
-#res span {
-    display:inline-block;
-    width:60px;
-}
-
-#res span:first-child {
-    width:70px;
-}
-
-#res span:last-child {
-    width:140px;
 }

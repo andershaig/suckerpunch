@@ -9,7 +9,7 @@
   <script src="tracker.js"></script>
   <script>
     $(document).ready( function () {
-      $('#el').on({
+      $('body').on({
         mousedown: function (e) {
           Tracker.start(e);
         },
@@ -21,11 +21,20 @@
       Tracker.init();
     });
   </script>
+
+  <style type="text/css">
+  /* Demo only styles */
+  body {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: #DDD;
+      cursor: crosshair;
+  }
+  </style>
 </head>
 <body>
-
-<div id="el"></div>
-<textarea id="res"></textarea>
-
 </body>
 </html>

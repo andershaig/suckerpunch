@@ -128,7 +128,7 @@
   Tracker.completed = false;
   Tracker.uuid      = null;
 
-  // Create and Inject Tracker Bar
+  // Create and Inject Tracker Bar and Result
   Tracker.init = function () {
     var bar = '<section id="tracker-bar">';
         bar += '<div id="tracker-status"><div id="tracker-status-light"></div></div>';
@@ -141,7 +141,9 @@
         bar += '</div>';
         bar += '</section>';
 
-    $('body').append(bar);
+    var res = '<textarea id="tracker-result"></textarea>';
+
+    $('body').append(res).append(bar);
   }
 
   // Set or reset event arrays
@@ -243,7 +245,7 @@
   // View Data
   Tracker.view = function () {
     var output = JSON.stringify(Tracker.o, null, 4);
-    $('#res').html(output).show();
+    $('#tracker-result').html(output).show();
   }
 
   // Send Data
@@ -256,7 +258,7 @@
   $(document).on('click', '#tracker-ready', function () {
     Tracker.disabled  = false;
     Tracker.completed = false;
-    $('#res').hide();
+    $('#tracker-result').hide();
   });
 
   $(document).on('click', '#tracker-view', function () {
