@@ -66,7 +66,7 @@
   border-right:1px solid rgba(0,0,0,0.8);
 }
 
-#uuid {
+#tracker-bar #uuid {
   display:block;
   background:transparent;
   color:rgba(255,255,255,0.8);
@@ -77,11 +77,11 @@
   width:100%;
 }
 
-::-webkit-input-placeholder {
+#tracker-bar ::-webkit-input-placeholder {
   color:rgba(255,255,255,0.8);
 }
 
-#uuid:focus {
+#tracker-bar #uuid:focus {
   outline:none;
   color:#333;
   background:#FFF;
