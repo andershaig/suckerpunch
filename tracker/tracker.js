@@ -1,97 +1,112 @@
-// Similar Sample: http://jsfiddle.net/cKhbc/
-// Replay: http://stackoverflow.com/questions/8130473/replay-mouse-movement-with-javascript
-// Another Replay: http://pure.rednoize.com/movelogger/
-// Open Source: http://smt.speedzinemedia.com/
-
-// Requires jQuery
 (function ($, Tracker, undefined) {
-  // For all data
-  Tracker.store = [];
-  
-  // Kick it off
-  Tracker.init = function () {
-    // Set up event capture
+  // Config
+  Tracker.config = {
+    interval: 100
   };
-  
-  // Set Function
-  Tracker.set = function (data) {
-    var s = this.store;
-    s.push(data);
+
+  // Set or reset event arrays
+  Tracker.prep = function () {
+    Tracker.allEvents = [];
+    Tracker.events = [];
+  }
+
+  // Environment Data
+  Tracker.env = {
+    browser: Env.browser(),
+    plugins: Env.plugins(),
+    device:  Env.device()
   };
-  
-  // Get Epoch time so we can replay
-  Tracker.time = function () {
-    return (new Date).getTime();
+
+  // Temp Data Holder
+  var temp = {
+    tX: null,
+    tY: null,
+    tT: null
   };
-  
-  // MouseMove Events
-  var captureMouse = function () {
-    // Get Time
-    var t = this.time();
-    
-    // Get Coords
-    var x = ;
-    var y = ;
-    
-    // Get Scroll Offset
-    var s = ;
-    
-    // Save
-    this.set({
-      'event': 'mousemove',
-      'time': t,
-      'pos_x': x,
-      'pos_y': y,
-      'scroll': s
+
+  // Store Temp Data
+  Tracker.sTd = function (e) {
+    Tracker.allEvents.push({
+      x: e.pageX,
+      y: e.pageY,
+      t: e.timeStamp
     });
-  };
-  
-  // Click Events
-  var captureClick = function () {
-    // Get Time
-    var t = this.time();
+
+    temp.tX = e.pageX;
+    temp.tY = e.pageY;
+    temp.tT = e.timeStamp;
+  }
+
+  // Finalize
+  Tracker.fin = function () {
+    var o = {};
+    o.start_time = Tracker.sT;
+    o.end_time = Tracker.eT;
+    o.duration = (Tracker.eT - Tracker.sT);
+    o.point_count = Tracker.events.length;
+    o.points = Tracker.events;
+    o.all_points_count = Tracker.allEvents.length;
+    o.all_point = Tracker.allEvents;
+    o.environment = Tracker.env;
+
+    var output = JSON.stringify(o, null, 4)
     
-    // Get Coords
-    var x = ;
-    var y = ;
+    $('#res').html(output).show();
+  }
+
+  // Track Points at interval
+  Tracker.tP = function () {
+    if (temp.tX !== null && temp.tY !== null && temp.tT !== null) {
+      Tracker.events.push({
+        x: temp.tX,
+        y: temp.tY,
+        t: temp.tT
+      });
+    }
+  }
+
+  // Start Tracker
+  Tracker.start = function (e) {
+    console.log('Tracker started');
+
+    Tracker.prep();
+
+    // Execution Times
+    Tracker.sT = e.timeStamp;
+
+    temp.tX = e.pageX;
+    temp.tY = e.pageY;
+    temp.tT = e.timeStamp;
     
-    // Get Scroll Offset
-    var s = ;
+    // Start tracking mouse
+    $(document).on('mousemove', Tracker.sTd);
+
+    Tracker.int = window.setInterval(Tracker.tP, Tracker.config.interval);
+  }
+
+  // Stop Tracker
+  Tracker.stop = function (e) {
+    console.log('Tracker stopped');
+
+    Tracker.eT = e.timeStamp;
     
-    // Save
-    this.set({
-      'event': 'click',
-      'time': t,
-      'pos_x': x,
-      'pos_y': y,
-      'scroll': s
-    });
-  };
-  
-  // Keypresses
-  var captureKey = function () {
-    // Get Time
-    var t = this.time();
+    $(document).off('mousemove');
     
-    // Get Key
-    var k = ;
-    
-    // Save
-    this.set({
-      'event': 'keypress',
-      'time': t,
-      'key': k
-    });
-  };
-  
-  // Watch for mousemove events
-  
-  // Watch for click events (can we do mouse down and mouse up?)
-  
-  // Watch for keypresses
-  
-  // Any other events like dragstart / dragend etc?
-  
+    Tracker.fin();
+
+    clearInterval(Tracker.int);
+  }
 }(jQuery, window.Tracker = window.Tracker || {}));
 
-// View data at any time in console with Tracker.store
+// Temp location for this
+$(document).ready( function () {
+  // When to start and stop
+  $('#el').on({
+    mousedown: function (e) {
+      Tracker.start(e);
+    },
+    mouseup: function(e) {
+      Tracker.stop(e);
+    }
+  });
+});
