@@ -4,18 +4,13 @@
     interval: 100
   };
 
-  // Start Time
+  // Execution Times
   Tracker.sT = null;
-
-  // Count
-  Tracker.count = 0;
+  Tracker.eT = null;
 
   // Coords
   Tracker.allEvents = [];
   Tracker.events = [];
-
-  // End Time
-  Tracker.eT = null;
 
   // Env Detection
   Tracker.detect = {
@@ -78,8 +73,8 @@
         }
       };
       device.viewport = {
-        width:  window.innerWidth  || doc.documentElement.clientWidth  || doc.body.clientWidth,
-        height: window.innerHeight || doc.documentElement.clientHeight || doc.body.clientHeight 
+        width:  window.innerWidth  || document.documentElement.clientWidth  || document.body.clientWidth,
+        height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight 
       };
       device.is_tablet = !!navigator.userAgent.match(/(iPad|SCH-I800|xoom|kindle)/i);
       device.is_phone  = !device.is_tablet && !!navigator.userAgent.match(/(iPhone|iPod|blackberry|android 0.5|htc|lg|midp|mmp|mobile|nokia|opera mini|palm|pocket|psp|sgh|smartphone|symbian|treo mini|Playstation Portable|SonyEricsson|Samsung|MobileExplorer|PalmSource|Benq|Windows Phone|Windows Mobile|IEMobile|Windows CE|Nintendo Wii)/i);
@@ -152,32 +147,8 @@
     o.environment = Tracker.env;
 
     var output = JSON.stringify(o, null, 4)
-
-    // var output = '<div><h3>Test Data</h3></div>';
-    // output += '<div><b>Start</b> ' + md.sT + '</div>';
-    // output += '<div><b>Stop</b> ' + md.eT + '</div>';
-    // output += '<div><b>Duration</b> ' + (md.eT - md.sT) + '</div>';
-    
-    // if (md.count == 0) {
-    //     output += '<div><b>Event Count</b> ' + md.events.length + '</div>';
-    // } else {
-    //     output += '<div><b>Event Count</b> ' + md.count + '</div>';
-    // }
-    
-    // if (md.events.length) {
-    //     output += '<div><b>Event Data</b></div>';
-        
-    //     $.each(md.events, function (i, v) {
-    //         output += '<div><span>{x: ' + v.x + ',</span><span>y: ' + v.y + ',</span><span>t: ' + v.t + '}</span></div>';
-    //     });
-    // }
     
     $('#res').html(output).show();
-  }
-
-  // Track Count
-  Tracker.tC = function () {
-    Tracker.count++;
   }
 
   // Track Points at interval

@@ -231,6 +231,10 @@ a {
                       inset 0 0 1px 0 rgba(0,0,0,0.35);
 }
 
+.square .single-drop {
+  border-radius:0;
+}
+
 .single-drop:hover, .single-drop.ui-state-active {
   border:1px solid #D47407;
   background: rgba(0,0,0,0.35);
