@@ -1,3 +1,83 @@
+/*----------------------/
+/// Reset ///////////////
+/----------------------*/
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+/* Tracker Controls */
+#tracker-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height:40px;
+  background:#333;
+  z-index:999;
+}
+
+#tracker-status {
+  float:left;
+  width:41px;
+  height:40px;
+  border-right:1px solid rgba(0,0,0,0.8);
+}
+
+#tracker-status-light {
+  width:20px;
+  height:20px;
+  border-radius:10px;
+  margin:10px;
+  background:red;
+}
+
+#tracker-status-light.tracking {
+  background:green;
+}
+
+#tracker-uuid {
+  float:left;
+  height:40px;
+  width:200px;
+  border-left:1px solid rgba(255,255,255,0.25);
+  border-right:1px solid rgba(0,0,0,0.8);
+}
+
+#uuid {
+  margin:5px 10px;
+  background:#FFF;
+  border:none;
+}
+
+#tracker-controls {
+  float:left;
+  height:40px;
+  width:400px;
+  width:calc(100% - 241px);
+}
+
+#tracker-controls button {
+
+}
+
+#tracker-reset {
+
+}
+
+#tracker-view {
+
+}
+
+#tracker-send {
+
+}
+
+/* Demo CSS */
 #el {
     position: fixed;
     left: 0;
