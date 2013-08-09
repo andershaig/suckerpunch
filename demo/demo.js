@@ -13,9 +13,10 @@ $(function () {
     hoverClass: 'ui-state-active',
     drop: function (event, ui) {
       Tracker.stop(event);
-      console.log(event);
-      console.log(ui);
+
+      // TODO - Add a way to pass this data through along with tracking data
       console.log('Dropped on ' + $(this).data('val'));
+
       $(this).addClass('ui-state-finished');
     }
   });

@@ -192,6 +192,7 @@
   // Start Tracker
   Tracker.start = function (e) {
     if (!Tracker.disabled) {
+      console.log('Tracker.start');
       Tracker.startTime = e.timeStamp;
 
       $('#tracker-status-light').addClass('tracking');
@@ -210,6 +211,7 @@
   // Stop Tracker
   Tracker.stop = function (e) {
     if (!Tracker.disabled) {
+      console.log('Tracker.stop');
       Tracker.endTime = e.timeStamp;
 
       $('#tracker-status-light').removeClass('tracking');
@@ -254,7 +256,6 @@
   }
 
   // Bindings
-  // TODO - Consider adding the tracker bar html to the lib as well?
   $(document).on('click', '#tracker-ready', function () {
     Tracker.disabled  = false;
     Tracker.completed = false;
@@ -262,7 +263,6 @@
   });
 
   $(document).on('click', '#tracker-view', function () {
-    // TODO - Potentially add this HTML to the lib as well?
     if (Tracker.completed) {
       Tracker.view();
     }
