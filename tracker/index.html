@@ -18,30 +18,12 @@
           Tracker.stop(e);
         }
       });
+
+      Tracker.init();
     });
   </script>
 </head>
 <body>
-
-<section id="tracker-bar">
-  <div id="tracker-status">
-    <div id="tracker-status-light"></div>
-  </div>
-
-  <div id="tracker-title">
-    Tracker Temp Title
-  </div>
-
-  <div id="tracker-uuid">
-    <input type="text" id="uuid" value="" placeholder="Session ID">
-  </div>
-
-  <div id="tracker-controls">
-    <button id="tracker-ready">Ready</button>
-    <button id="tracker-view">View</button>
-    <button id="tracker-send">Send</button>
-  </div>
-</section>
 
 <div id="el"></div>
 <textarea id="res"></textarea>

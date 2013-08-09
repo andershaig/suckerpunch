@@ -6,6 +6,22 @@
   Tracker.completed = false;
   Tracker.uuid      = null;
 
+  // Create and Inject Tracker Bar
+  Tracker.init = function () {
+    var bar = '<section id="tracker-bar">';
+        bar += '<div id="tracker-status"><div id="tracker-status-light"></div></div>';
+        bar += '<div id="tracker-title">Tracker Temp Title</div>';
+        bar += '<div id="tracker-uuid"><input type="text" id="uuid" value="" placeholder="Session ID"></div>';
+        bar += '<div id="tracker-controls">';
+        bar += '<button id="tracker-ready">Ready</button>';
+        bar += '<button id="tracker-view">View</button>';
+        bar += '<button id="tracker-send">Send</button>';
+        bar += '</div>';
+        bar += '</section>';
+
+    $('body').append(bar);
+  }
+
   // Set or reset event arrays
   Tracker.prep = function () {
     Tracker.events = [];
