@@ -1,7 +1,9 @@
 (function ($, Tracker, undefined) {
   // Config
-  Tracker.interval = 100;
-  Tracker.disabled = false;
+  Tracker.version   = 0.1;
+  Tracker.interval  = 100;
+  Tracker.disabled  = false;
+  Tracker.completed = false;
 
   // Set or reset event arrays
   Tracker.prep = function () {
@@ -12,15 +14,20 @@
     Tracker.env = {
       browser: Env.browser(),
       plugins: Env.plugins(),
-      device:  Env.device()
+      device:  Env.device(),
+      url:     Env.url()
     };
   }
 
   // Temp Data Holder
-  var temp = {};
+  var temp = {
+    pageX:     null,
+    pageY:     null,
+    timeStamp: null
+  };
 
   // Store Temp Data
-  Tracker.sTd = function (e) {
+  Tracker.store = function (e) {
     Tracker.events.push({
       x: e.pageX,
       y: e.pageY,
@@ -31,8 +38,8 @@
   }
 
   // Track Points at interval
-  Tracker.tP = function () {
-    if (temp.tX !== null && temp.tY !== null && temp.tT !== null) {
+  Tracker.getPoint = function () {
+    if (temp.pageX !== null && temp.pageY !== null && temp.timeStamp !== null) {
       Tracker.points.push({
         x: temp.pageX,
         y: temp.pageY,
@@ -44,55 +51,82 @@
   // Start Tracker
   Tracker.start = function (e) {
     if (!Tracker.disabled) {
-      console.log('Tracker started');
+      Tracker.startTime = e.timeStamp;
 
       Tracker.prep();
-
-      // Execution Times
-      Tracker.sT = e.timeStamp;
 
       temp = e;
       
       // Start tracking mouse
-      $(document).on('mousemove', Tracker.sTd);
+      $(document).on('mousemove', Tracker.store);
 
-      Tracker.int = window.setInterval(Tracker.tP, Tracker.interval);
+      Tracker.int = window.setInterval(Tracker.getPoint, Tracker.interval);
     }
   }
 
   // Stop Tracker
   Tracker.stop = function (e) {
     if (!Tracker.disabled) {
-      console.log('Tracker stopped');
-
-      Tracker.eT = e.timeStamp;
+      Tracker.endTime = e.timeStamp;
       
       $(document).off('mousemove');
 
       Tracker.disabled = true;
-      
-      Tracker.fin();
 
       clearInterval(Tracker.int);
+
+      Tracker.complete();
     }
   }
 
-  // Finalize
-  Tracker.fin = function () {
-    var o = {};
-    o.start_time  = Tracker.sT;
-    o.end_time    = Tracker.eT;
-    o.duration    = (Tracker.eT - Tracker.sT);
+  // When everything is done
+  Tracker.complete = function () {
+    Tracker.o = {};
+
+    o.version     = Tracker.version;
+    o.start_time  = Tracker.startTime;
+    o.end_time    = Tracker.endTime;
+    o.duration    = (Tracker.endTime - Tracker.startTime);
     o.point_count = Tracker.points.length;
     o.points      = Tracker.points;
     o.event_count = Tracker.events.length;
     o.events      = Tracker.events;
     o.environment = Tracker.env;
 
-    var output = JSON.stringify(o, null, 4)
-    
+    Tracker.completed = true;
+  }
+
+  // View Data
+  Tracker.view = function () {
+    var output = JSON.stringify(o, null, 4);
     $('#res').html(output).show();
   }
+
+  // Send Data
+  Tracker.send = function () {
+    // TODO - Add a server to get the data
+  }
+
+  // Bindings
+  // TODO - Consider adding the tracker bar html to the lib as well?
+  $(document).on('click', '#tracker-reset', function () {
+    Tracker.disabled  = false;
+    Tracker.completed = false;
+  });
+
+  $(document).on('click', '#tracker-view', function () {
+    // TODO - Potentially add this HTML to the lib as well?
+    if (Tracker.completed) {
+      Tracker.view();
+    }
+  });
+
+  $(document).on('click', '#tracker-send', function () {
+    if (Tracker.completed) {
+      //Tracker.send();
+      alert('(FAKE) Your data has been sent.');
+    }
+  });
 
 }(jQuery, window.Tracker = window.Tracker || {}));
 

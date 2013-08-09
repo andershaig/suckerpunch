@@ -106,4 +106,9 @@
     };
   }
 
+  // Return Page URL
+  Env.url = function () {
+    return window.location.href;
+  }
+
 }(window.Env = window.Env || {}));
