@@ -197,7 +197,7 @@
     overlay.attr('fill','rgba(0,0,0,0.25)'); // TEMP
 
     // Loaded from the attached sample-data/full.js file
-    points = result.points;
+    points = result.events;
 
     Replayer.drawLines(paper, points);
     Replayer.drawPoints(paper, points);

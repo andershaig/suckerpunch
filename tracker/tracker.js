@@ -130,20 +130,22 @@
 
   // Create and Inject Tracker Bar and Result
   Tracker.init = function () {
-    var bar = '<section id="tracker-bar">';
-        bar += '<div id="tracker-status"><div id="tracker-status-light"></div></div>';
-        bar += '<div id="tracker-title">Tracker Temp Title</div>';
-        bar += '<div id="tracker-uuid"><input type="text" id="uuid" value="" placeholder="Session ID"></div>';
-        bar += '<div id="tracker-controls">';
-        bar += '<button id="tracker-ready">Ready</button>';
-        bar += '<button id="tracker-view">View</button>';
-        bar += '<button id="tracker-send">Send</button>';
-        bar += '</div>';
-        bar += '</section>';
+    if (window.self === window.top) {
+      var bar = '<section id="tracker-bar">';
+          bar += '<div id="tracker-status"><div id="tracker-status-light"></div></div>';
+          bar += '<div id="tracker-title">Tracker Temp Title</div>';
+          bar += '<div id="tracker-uuid"><input type="text" id="uuid" value="" placeholder="Session ID"></div>';
+          bar += '<div id="tracker-controls">';
+          bar += '<button id="tracker-ready">Ready</button>';
+          bar += '<button id="tracker-view">View</button>';
+          bar += '<button id="tracker-send">Send</button>';
+          bar += '</div>';
+          bar += '</section>';
 
-    var res = '<textarea id="tracker-result"></textarea>';
+      var res = '<textarea id="tracker-result"></textarea>';
 
-    $('body').append(res).append(bar);
+      $('body').append(res).append(bar);
+    }
   }
 
   // Set or reset event arrays
