@@ -127,14 +127,20 @@
 
 #tracker-result {
     position:absolute;
-    top:10px;
-    left:10px;
-    bottom:10px;
-    width:200px;
+    top:50%;
+    left:50%;
+    width:500px;
+    height:500px;
+    margin-top:-250px;
+    margin-left:-250px;
     display:none;
     padding:20px;
     background:#FFF;
     border:1px solid #BBB;
     cursor:default;
     resize:none;
+}
+
+#tracker-result:focus {
+  outline:none;
 }

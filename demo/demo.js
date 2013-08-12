@@ -15,6 +15,7 @@ $(function () {
       Tracker.stop(event);
 
       // TODO - Add a way to pass this data through along with tracking data
+      //e.g. Tracker.stop(event, data)
       console.log('Dropped on ' + $(this).data('val'));
 
       $(this).addClass('ui-state-finished');
