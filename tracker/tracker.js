@@ -202,6 +202,8 @@
       Tracker.prep();
 
       temp = e;
+
+      Tracker.getPoint(e);
       
       // Start tracking mouse
       $(document).on('mousemove', Tracker.store);
